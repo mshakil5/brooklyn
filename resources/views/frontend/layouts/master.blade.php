@@ -27,6 +27,7 @@
     @endphp
 
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -146,6 +147,7 @@
     </button>
 
     <!-- ===== SCRIPTS ===== -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -193,29 +195,101 @@
             });
         }
 
-        // Estimate form
-        const estimateForm = document.getElementById('estimateForm');
-        if (estimateForm) {
-            estimateForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const btn = this.querySelector('.btn-estimate');
-                const orig = btn.innerHTML;
-                btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Request Submitted!';
-                btn.style.background = '#22c55e';
-                btn.disabled = true;
-                setTimeout(() => {
-                    btn.innerHTML = orig;
-                    btn.style.background = '';
-                    btn.disabled = false;
-                    this.reset();
-                }, 3000);
-            });
-        }
+
     </script>
 
 
 
     @yield('script')
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('estimateForm');
+        const alertBox = document.getElementById('estimateAlert');
+        const submitBtn = document.getElementById('estimateSubmitBtn');
+        
+        if (!form) return; // Stops error if user is on a page without the form
+
+        // Clear errors on input focus
+        form.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.classList.remove('is-invalid');
+                const errorSpan = document.getElementById(this.name + '_error');
+                if(errorSpan) errorSpan.textContent = '';
+                alertBox.classList.add('d-none');
+            });
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Clear all previous errors
+            form.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+            form.querySelectorAll('.form-control, .form-select').forEach(el => el.classList.remove('is-invalid'));
+            alertBox.classList.add('d-none');
+
+            // Change button state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Submitting...';
+
+            const formData = new FormData(form);
+
+            fetch('{{ route("estimate.store") }}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => { throw data; }).catch(() => {
+                        // If response is not JSON (like a 419 or 500 HTML page), throw a generic error
+                        throw { message: "Server returned a non-JSON response. Check Laravel logs for 500/419 errors." };
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Success State
+                alertBox.classList.remove('d-none', 'alert-danger');
+                alertBox.classList.add('alert-success');
+                alertBox.textContent = data.success;
+                form.reset();
+                
+                // Scroll to alert
+                alertBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            })
+            .catch(error => {
+                // Print exact error to browser console for debugging
+                console.error("Estimate Form Error:", error);
+
+                // Error State
+                if (error.errors) {
+                    // Show specific field errors
+                    Object.keys(error.errors).forEach(field => {
+                        const errorSpan = document.getElementById(field + '_error');
+                        const inputField = form.querySelector(`[name="${field}"]`);
+                        if (errorSpan) errorSpan.textContent = error.errors[field][0];
+                        if (inputField) inputField.classList.add('is-invalid');
+                    });
+                } else {
+                    // General error
+                    alertBox.classList.remove('d-none', 'alert-success');
+                    alertBox.classList.add('alert-danger');
+                    alertBox.textContent = error.message || 'Something went wrong. Please try again.';
+                }
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Get My Free Estimate <i class="bi bi-arrow-right"></i>';
+            });
+        });
+    });
+</script>
+
 
 </body>
 </html>

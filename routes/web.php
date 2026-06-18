@@ -41,6 +41,8 @@ Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->nam
 Route::get('/terms-of-service', [FrontendController::class, 'termsOfService'])->name('termsOfService');
 Route::get('/sitemap', [FrontendController::class, 'sitemap'])->name('sitemap');
 
+Route::post('/submit-estimate', [FrontendController::class, 'storeEstimate'])->name('estimate.store');
+
 
 
 Route::group(['prefix' =>'user/', 'middleware' => ['auth', 'is_user', 'verified']], function(){

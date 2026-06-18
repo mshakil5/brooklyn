@@ -14,9 +14,11 @@
     use App\Models\AboutMilestone;
     use App\Models\AboutValue;
     use App\Models\AboutCert;
-use App\Models\Gallery;
-use Illuminate\Http\Request;
+    use App\Models\Gallery;
+    use App\Models\Estimate;
+    use Illuminate\Http\Request;
     use Illuminate\Support\Str;
+    use Illuminate\Support\Facades\Validator;
 
 class FrontendController extends Controller
 {
@@ -231,6 +233,72 @@ class FrontendController extends Controller
 
         return view('frontend.gallery', compact('galleries'));
     }
+
+
+
+    public function storeEstimate(Request $request)
+    {
+        \Log::info('Estimate request received', [
+            'ip' => $request->ip(),
+            'input' => $request->except(['_token']),
+        ]);
+
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:50',
+            'last_name'  => 'required|string|max:50',
+            'phone'      => 'required|string|max:20',
+            'email'      => 'nullable|email|max:255',
+            'address'    => 'required|string|max:500',
+            'borough'    => 'required|string|in:Manhattan,Brooklyn,Queens,Bronx,Staten Island',
+            'service'    => 'required|string|max:255',
+            'message'    => 'nullable|string|max:2000',
+        ], [
+            'first_name.required' => 'First name is required.',
+            'last_name.required'  => 'Last name is required.',
+            'phone.required'      => 'Phone number is required.',
+            'address.required'    => 'Property address is required.',
+            'borough.required'    => 'Please select a borough.',
+            'service.required'    => 'Please select a service.',
+            'email.email'         => 'Please enter a valid email address.',
+        ]);
+
+        if ($validator->fails()) {
+            \Log::warning('Estimate validation failed', [
+                'errors' => $validator->errors()->messages(),
+                'input' => $request->except(['_token']),
+                'ip' => $request->ip(),
+            ]);
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Store Data
+        $estimate = Estimate::create([
+            'first_name' => $request->first_name,
+            'last_name'  => $request->last_name,
+            'phone'      => $request->phone,
+            'email'      => $request->email,
+            'address'    => $request->address,
+            'borough'    => $request->borough,
+            'service'    => $request->service,
+            'message'    => $request->message,
+            'ip_address' => $request->ip(),
+        ]);
+
+        \Log::info('Estimate request stored', [
+            'estimate_id' => $estimate->id,
+            'ip' => $request->ip(),
+        ]);
+
+        \Log::info('Estimate response returned', [
+            'estimate_id' => $estimate->id,
+            'ip' => $request->ip(),
+        ]);
+
+        return response()->json([
+            'success' => 'Thank you! Your estimate request has been submitted successfully. We will contact you within 24 hours.'
+        ]);
+    }
+
 
 
 }
