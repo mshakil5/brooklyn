@@ -4,31 +4,39 @@
 
 
     <!-- ========== HERO SECTION ========== -->
-    <section class="hero-section">
+    <section class="hero-section"
+        @if($slider && $slider->image)
+            style="background-image: url('{{ asset('uploads/slider/' . $slider->image) }}');"
+        @endif
+        >
         <div class="hero-bg-overlay"></div>
         <div class="container">
             <div class="row align-items-center hero-row">
                 <!-- Left Content -->
                 <div class="col-lg-6 hero-left">
                     <h1 class="hero-title">
-                        Does Your Sidewalk Have <span class="text-blue">Violations?</span>
+                        {!! $slider->title ?? 'Does Your Sidewalk Have <span class="text-blue">Violations?</span>' !!}
                     </h1>
                     <p class="hero-desc">
-                        Enter your New York property information below to check for any sidewalk violations. We help property owners resolve DOT violations quickly and affordably.
+                        {{ $slider->subtitle ?? 'Enter your New York property information below to check for any sidewalk violations. We help property owners resolve DOT violations quickly and affordably.' }}
                     </p>
+                    @php
+                        // Check if already an array (Laravel auto-casts JSON columns)
+                        $highlights = is_array($slider->highlights) ? $slider->highlights : [];
+                        $defaultHighlights = [
+                            ['icon' => 'bi bi-check-circle-fill', 'text' => 'Free Property Inspection'],
+                            ['icon' => 'bi bi-check-circle-fill', 'text' => 'DOT Violation Experts'],
+                            ['icon' => 'bi bi-check-circle-fill', 'text' => 'Fast & Affordable Repairs'],
+                        ];
+                        $highlights = !empty($highlights) ? $highlights : $defaultHighlights;
+                    @endphp
                     <div class="hero-highlights">
-                        <div class="highlight-item">
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>Free Property Inspection</span>
-                        </div>
-                        <div class="highlight-item">
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>DOT Violation Experts</span>
-                        </div>
-                        <div class="highlight-item">
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>Fast & Affordable Repairs</span>
-                        </div>
+                        @foreach($highlights as $item)
+                            <div class="highlight-item">
+                                <i class="{{ $item['icon'] ?? 'bi bi-check-circle-fill' }}"></i>
+                                <span>{{ $item['text'] ?? '' }}</span>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 
@@ -39,18 +47,31 @@
                             <i class="bi bi-search"></i>
                             <h3>Check My Property</h3>
                         </div>
-                        <form id="checkForm">
+                        <form id="checkForm" action="{{ route('contact.store') }}" method="POST">
+                            @csrf
                             <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="Property Address" required>
+                                <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" placeholder="Property Address" value="{{ old('address') }}" required>
+                                @error('address')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="Full Name" required>
+                                <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror" placeholder="Full Name" value="{{ old('first_name') }}" required>
+                                @error('first_name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
-                                <input type="tel" class="form-control" placeholder="Phone Number" required>
+                                <input type="tel" name="phone" class="form-control @error('phone') is-invalid @enderror" placeholder="Phone Number" value="{{ old('phone') }}" required>
+                                @error('phone')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-4">
-                                <input type="email" class="form-control" placeholder="Email Address" required>
+                                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email Address" value="{{ old('email') }}" required>
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <button type="submit" class="btn-submit">
                                 Check Now
@@ -66,35 +87,28 @@
         <div class="stats-bar">
             <div class="container">
                 <div class="row g-0">
-                    <div class="col-6 col-md-3">
-                        <div class="stat-item">
-                            <span class="stat-number" data-count="5000">5,000+</span>
-                            <span class="stat-label">Projects Completed</span>
+                    @php
+                        $stats = is_array($slider->stats) ? $slider->stats : [];
+                        $defaultStats = [
+                            ['number' => '5,000+', 'label' => 'Projects Completed'],
+                            ['number' => '25+', 'label' => 'Years in Business'],
+                            ['number' => '100%', 'label' => 'DOT Compliant'],
+                            ['number' => '24/7', 'label' => 'Emergency Service'],
+                        ];
+                        $stats = !empty($stats) ? $stats : $defaultStats;
+                    @endphp
+                    @foreach($stats as $stat)
+                        <div class="col-6 col-md-2">
+                            <div class="stat-item">
+                                <span class="stat-number">{{ $stat['number'] ?? '' }}</span>
+                                <span class="stat-label">{{ $stat['label'] ?? '' }}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="stat-item">
-                            <span class="stat-number">25+</span>
-                            <span class="stat-label">Years in Business</span>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="stat-item">
-                            <span class="stat-number">100%</span>
-                            <span class="stat-label">DOT Compliant</span>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="stat-item">
-                            <span class="stat-number">24/7</span>
-                            <span class="stat-label">Emergency Service</span>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </section>
-
 
 
     <!-- ========== SERVICES SECTION ========== -->

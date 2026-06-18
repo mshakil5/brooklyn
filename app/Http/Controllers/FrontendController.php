@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
+    
     public function index()
     {
         $categories = Category::with('products')->where('status', 1)->get();
@@ -32,13 +33,10 @@ class FrontendController extends Controller
             'google_map',
         ])->first();
 
-        $slider = Slider::where('status', 1)->first();
+        $slider = Slider::where('status', 1)->latest()->first();
 
-        
-
-        return view('frontend.index', compact('categories','company','slider'));
+        return view('frontend.index', compact('categories', 'company', 'slider'));
     }
-
 
     public function contact()
     {

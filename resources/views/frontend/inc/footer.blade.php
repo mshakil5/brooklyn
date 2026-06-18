@@ -301,11 +301,11 @@
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <div class="footer-bottom-links">
-                        <a href="#">Privacy Policy</a>
+                        <a href="{{ route('privacyPolicy') }}">Privacy Policy</a>
                         <span class="footer-sep">|</span>
-                        <a href="#">Terms of Service</a>
+                        <a href="{{ route('termsOfService') }}">Terms of Service</a>
                         <span class="footer-sep">|</span>
-                        <a href="#">Sitemap</a>
+                        <a href="{{ route('sitemap') }}">Sitemap</a>
                     </div>
                 </div>
             </div>

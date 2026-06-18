@@ -37,6 +37,11 @@ Route::get('/gallery', [FrontendController::class, 'gallery'])->name('gallery');
 
 
 
+Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacyPolicy');
+Route::get('/terms-of-service', [FrontendController::class, 'termsOfService'])->name('termsOfService');
+Route::get('/sitemap', [FrontendController::class, 'sitemap'])->name('sitemap');
+
+
 
 Route::group(['prefix' =>'user/', 'middleware' => ['auth', 'is_user', 'verified']], function(){
   

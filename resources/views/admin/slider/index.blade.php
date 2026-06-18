@@ -450,27 +450,25 @@ let statCounter = 0;
         form_data.append("subtitle", $("#subtitle").val());
         form_data.append("link", $("#link").val());
 
-        // Collect highlights
-        var highlights = [];
-        $('.highlight-row').each(function() {
+        // Collect highlights - send as array format for Laravel
+        $('.highlight-row').each(function(index) {
             var icon = $(this).find('.highlight-icon').val();
             var text = $(this).find('.highlight-text').val();
             if (text.trim()) {
-                highlights.push({ icon: icon, text: text });
+                form_data.append("highlights[" + index + "][icon]", icon);
+                form_data.append("highlights[" + index + "][text]", text);
             }
         });
-        form_data.append("highlights", JSON.stringify(highlights));
 
-        // Collect stats
-        var stats = [];
-        $('.stat-row').each(function() {
+        // Collect stats - send as array format for Laravel
+        $('.stat-row').each(function(index) {
             var number = $(this).find('.stat-number').val();
             var label = $(this).find('.stat-label').val();
             if (number.trim() && label.trim()) {
-                stats.push({ number: number, label: label });
+                form_data.append("stats[" + index + "][number]", number);
+                form_data.append("stats[" + index + "][label]", label);
             }
         });
-        form_data.append("stats", JSON.stringify(stats));
 
         // Image
         var featureImgInput = document.getElementById('image');
