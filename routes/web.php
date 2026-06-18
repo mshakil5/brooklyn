@@ -31,6 +31,9 @@ Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard'
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 Route::post('/contact/store', [FrontendController::class, 'contactStore'])->name('contact.store');
 Route::get('/about-us', [FrontendController::class, 'aboutUs'])->name('aboutUs');
+Route::get('/service', [FrontendController::class, 'service'])->name('service');
+Route::get('/testimonial', [FrontendController::class, 'testimonial'])->name('testimonial');
+Route::get('/gallery', [FrontendController::class, 'gallery'])->name('gallery');
 
 
 

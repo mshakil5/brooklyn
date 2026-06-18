@@ -5,28 +5,23 @@
     @php
         $company = App\Models\CompanyDetails::select(
             'company_name', 'fav_icon', 'google_site_verification',
-            'bing_site_verification', 'footer_content', 'facebook',
+            'footer_content', 'facebook',
             'twitter', 'linkedin', 'instagram', 'youtube', 'website', 'phone1', 'phone2', 'email1',
             'address1', 'company_logo', 'footer_logo', 'copyright',
             'google_map', 'meta_title', 'meta_description', 'meta_keywords',
-            'og_image', 'canonical_url', 'google_analytics_id',
-            'google_tag_manager_id', 'robots_index', 'robots_follow'
         )->first();
 
         // Fallback chain: page-specific → company OG image → hardcoded default
         if (isset($pageImage) && $pageImage) {
-            // Page-specific image already set (e.g., package details)
-        } elseif ($company->og_image) {
-            $pageImage = asset('uploads/company/' . $company->og_image);
-        } else {
-            // ✅ Hardcoded default OG image - upload this file once
-            $pageImage = asset('images/og-default.jpg');
+            // Page-specific image already set (e.g., service details)
+        }else {
+            $pageImage = asset('images/og-image.jpg');
         }
 
-        $pageTitle       = $pageTitle       ?? $company->meta_title       ?? 'China Medicare | Trusted Healthcare Services';
-        $pageDescription = $pageDescription ?? $company->meta_description ?? 'China Medicare offers comprehensive health check-up packages, specialist consultations, advanced cancer treatment, and cardiac procedures.';
-        $pageKeywords    = $pageKeywords    ?? $company->meta_keywords    ?? 'China Medicare, healthcare, medical check-up';
-        $canonicalUrl    = $canonicalUrl    ?? ($company->canonical_url  ?? url()->current());
+        // Default fallbacks specific to NYC Sidewalk Pros
+        $pageTitle       = $pageTitle       ?? $company->meta_title       ?? 'NYC Sidewalk Pros | Licensed Sidewalk & Concrete Contractors in New York';
+        $pageDescription = $pageDescription ?? $company->meta_description ?? 'NYC\'s most trusted sidewalk and concrete contractors since 1998. DOT violation removal, sidewalk repair, concrete installation. Licensed, insured & serving all 5 boroughs. Call (212) 555-1234 for a free estimate.';
+        $pageKeywords    = $pageKeywords    ?? $company->meta_keywords    ?? 'NYC sidewalk repair, DOT violation removal, concrete contractor New York, sidewalk violation NYC, concrete installation Brooklyn, Manhattan sidewalk repair';
         $robotsIndex     = $robotsIndex     ?? $company->robots_index     ?? 'index';
         $robotsFollow    = $robotsFollow    ?? $company->robots_follow    ?? 'follow';
     @endphp
@@ -47,25 +42,22 @@
     <meta name="author" content="{{ $company->company_name }}">
     <meta name="robots" content="{{ $robotsIndex }}, {{ $robotsFollow }}, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
-    <!-- ===== CANONICAL ===== -->
-    <link rel="canonical" href="{{ $canonicalUrl }}">
-
-    <!-- ===== FAVICON ===== -->
     <!-- ===== FAVICON ===== -->
     @if($company->fav_icon)
-        <!-- Generic icon tag (Works for .ico, .png, .jpg) -->
-        <link rel="icon" href="{{ asset('uploads/company/' . $company->fav_icon) }}">
-        <!-- Apple Touch Icon (For iOS home screen bookmarks) -->
-        <link rel="apple-touch-icon" href="{{ asset('uploads/company/' . $company->fav_icon) }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('uploads/company/' . $company->fav_icon) }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('uploads/company/' . $company->fav_icon) }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('uploads/company/' . $company->fav_icon) }}">
+    @else
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
     @endif
 
-    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
     <meta name="theme-color" content="#ffffff">
     <meta name="msapplication-TileColor" content="#ffffff">
 
     <!-- ===== OPEN GRAPH / FACEBOOK ===== -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ $canonicalUrl }}">
     <meta property="og:title" content="{{ $pageTitle }}">
     @if($pageDescription)
         <meta property="og:description" content="{{ Str::limit($pageDescription, 200) }}">
@@ -79,7 +71,6 @@
 
     <!-- ===== TWITTER CARD ===== -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="{{ $canonicalUrl }}">
     <meta name="twitter:title" content="{{ $pageTitle }}">
     @if($pageDescription)
         <meta name="twitter:description" content="{{ Str::limit($pageDescription, 200) }}">
@@ -94,13 +85,10 @@
     @if($company->google_site_verification)
         <meta name="google-site-verification" content="{{ $company->google_site_verification }}">
     @endif
-    @if($company->bing_site_verification)
-        <meta name="msvalidate.01" content="{{ $company->bing_site_verification }}">
-    @endif
 
     <!-- ===== GEO TAGS ===== -->
     @if($company->address1)
-        <meta name="geo.region" content="CN">
+        <meta name="geo.region" content="US-NY">
         <meta name="geo.placename" content="{{ $company->address1 }}">
     @endif
 
@@ -111,10 +99,14 @@
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
     <!-- ===== STYLESHEETS ===== -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('resources/frontend/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('style.css') }}">
+    <link href="{{ asset('resources/frontend/css/style.css') }}" rel="stylesheet" type="text/css" />
+
+    <!-- ===== PAGE-SPECIFIC CSS ===== -->
+    @yield('page-css')
 
     <!-- ===== GOOGLE TAG MANAGER (HEAD) ===== -->
     @if($company->google_tag_manager_id)
@@ -149,22 +141,80 @@
 
     @include('frontend.inc.footer')
 
-    <!-- ===== SCRIPTS ===== -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ===== Back to Top Button ===== -->
+    <button id="backToTop" class="back-to-top" title="Back to Top" aria-label="Back to top">
+        <i class="bi bi-chevron-up"></i>
+    </button>
 
-    <!-- ===== GOOGLE ANALYTICS ===== -->
-    @if($company->google_analytics_id)
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $company->google_analytics_id }}"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '{{ $company->google_analytics_id }}', {
-                page_title: '{{ $pageTitle }}',
-                page_location: '{{ $canonicalUrl }}'
+    <!-- ===== SCRIPTS ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Auto-update copyright year
+        const yearEl = document.getElementById('currentYear');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        // Navbar scroll effect
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            window.addEventListener('scroll', () => {
+                navbar.classList.toggle('scrolled', window.scrollY > 40);
             });
-        </script>
-    @endif
+        }
+
+
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    const offset = 80;
+                    const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                    // Close mobile nav
+                    const navCollapse = document.getElementById('mainNav');
+                    if (navCollapse) {
+                        const bsCollapse = bootstrap.Collapse.getInstance(navCollapse);
+                        if (bsCollapse) bsCollapse.hide();
+                    }
+                }
+            });
+        });
+
+        // Back to top button
+        const backToTopBtn = document.getElementById('backToTop');
+        if (backToTopBtn) {
+            window.addEventListener('scroll', () => {
+                backToTopBtn.classList.toggle('show', window.scrollY > 500);
+            });
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Estimate form
+        const estimateForm = document.getElementById('estimateForm');
+        if (estimateForm) {
+            estimateForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const btn = this.querySelector('.btn-estimate');
+                const orig = btn.innerHTML;
+                btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Request Submitted!';
+                btn.style.background = '#22c55e';
+                btn.disabled = true;
+                setTimeout(() => {
+                    btn.innerHTML = orig;
+                    btn.style.background = '';
+                    btn.disabled = false;
+                    this.reset();
+                }, 3000);
+            });
+        }
+    </script>
+
+
 
     @yield('script')
 

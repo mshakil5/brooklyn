@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\CompanyDetails;
 use App\Models\Contact;
+use App\Models\Slider;
 use Illuminate\Http\Request;
     use Illuminate\Support\Str;
 
@@ -31,7 +32,11 @@ class FrontendController extends Controller
             'google_map',
         ])->first();
 
-        return view('frontend.index', compact('categories','company'));
+        $slider = Slider::where('status', 1)->first();
+
+        
+
+        return view('frontend.index', compact('categories','company','slider'));
     }
 
 
