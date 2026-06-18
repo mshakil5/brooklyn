@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
-    
+
     public function index()
     {
         $categories = Category::with('products')->where('status', 1)->get();
@@ -185,6 +185,25 @@ class FrontendController extends Controller
     {
         $companyDetails = CompanyDetails::first();
         return view('frontend.about', compact('companyDetails'));
+    }
+
+    public function service()
+    {
+        $companyDetails = CompanyDetails::first();
+        return view('frontend.service', compact('companyDetails'));
+    }
+
+
+    public function testimonial()
+    {
+        $companyDetails = CompanyDetails::first();
+        return view('frontend.testimonial', compact('companyDetails'));
+    }
+
+    public function gallery()
+    {
+        $companyDetails = CompanyDetails::first();
+        return view('frontend.gallery', compact('companyDetails'));
     }
 
 

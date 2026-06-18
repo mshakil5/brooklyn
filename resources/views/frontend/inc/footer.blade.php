@@ -272,32 +272,22 @@
                                 <span class="cert-sub">Better Business Bureau Accredited</span>
                             </div>
                         </div>
+
+                        <a href="{{ route('contact') }}" class="btn-footer-cta">
+                        Get Free Estimate
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Footer CTA -->
-        <div class="footer-cta">
-            <div class="row align-items-center">
-                <div class="col-md-7">
-                    <h4>Ready to Fix Your Sidewalk?</h4>
-                    <p>Get a free on-site estimate — no obligation, no hidden fees.</p>
-                </div>
-                <div class="col-md-5 text-md-end mt-3 mt-md-0">
-                    <a href="{{ route('contact') }}" class="btn-footer-cta">
-                        Get Free Estimate
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
 
         <!-- Footer Bottom -->
         <div class="footer-bottom">
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start">
-                    <p>{{ $company->copyright ?? '&copy; <span id="currentYear"></span> NYC Sidewalk Pros. All rights reserved.' }}</p>
+                    <p>{!! $company->copyright ?? '&copy; <span id="currentYear"></span> NYC Sidewalk Pros. All rights reserved.' !!}</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <div class="footer-bottom-links">
