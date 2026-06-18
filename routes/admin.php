@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CompanyDetailsController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\EstimateController;
 use App\Http\Controllers\Admin\FAQController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\MasterController;
@@ -168,6 +169,12 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::delete('/service/{id}', [ServiceController::class, 'serviceDelete'])->name('service.delete');
     Route::post('/service-status', [ServiceController::class, 'toggleStatus']);
     Route::post('/services/update-order', [ServiceController::class, 'updateOrder'])->name('services.updateOrder');
+
+    // Estimates
+    Route::get('/estimates', [EstimateController::class, 'index'])->name('estimates.index');
+    Route::get('/estimates/{id}', [EstimateController::class, 'show'])->name('estimates.show');
+    Route::delete('/estimates/{id}/delete', [EstimateController::class, 'destroy'])->name('estimates.delete');
+    Route::post('/estimates/toggle-read', [EstimateController::class, 'toggleRead'])->name('estimates.toggleRead');
 
 
 
