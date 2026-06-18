@@ -1,13 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+    namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\CompanyDetails;
-use App\Models\Contact;
-use App\Models\Service;
-use App\Models\Slider;
-use Illuminate\Http\Request;
+    use App\Models\Category;
+    use App\Models\CompanyDetails;
+    use App\Models\Contact;
+    use App\Models\Service;
+    use App\Models\Slider;
+
+    use App\Models\AboutPage;
+    use App\Models\AboutStat;
+    use App\Models\AboutHighlight;
+    use App\Models\AboutMilestone;
+    use App\Models\AboutValue;
+    use App\Models\AboutCert;
+
+    use Illuminate\Http\Request;
     use Illuminate\Support\Str;
 
 class FrontendController extends Controller
@@ -184,17 +192,26 @@ class FrontendController extends Controller
 
     public function aboutUs()
     {
-        $companyDetails = CompanyDetails::first();
-        return view('frontend.about', compact('companyDetails'));
+        $aboutPage   = AboutPage::first();
+        
+        // Fetch only active items, ordered by sort_order
+        $stats       = AboutStat::where('status', 1)->orderBy('sort_order')->get();
+        $highlights  = AboutHighlight::where('status', 1)->orderBy('sort_order')->get();
+        $milestones  = AboutMilestone::where('status', 1)->orderBy('sort_order')->get();
+        $values      = AboutValue::where('status', 1)->orderBy('sort_order')->get();
+        $certs       = AboutCert::where('status', 1)->orderBy('sort_order')->get();
+
+        return view('frontend.about', compact(
+            'aboutPage', 'stats', 'highlights', 'milestones', 'values', 'certs'
+        ));
     }
 
+    
     public function service()
     {
         $services = Service::where('status', 1)
                     ->orderBy('serial', 'asc')
                     ->get();
-
-                    // dd( $services );
         return view('frontend.service', compact('services'));
     }
 
