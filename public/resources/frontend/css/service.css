@@ -1,0 +1,431 @@
+    /* ============================================
+    SERVICES ACCORDION SECTION
+    ============================================ */
+    .svc-section {
+        padding: 80px 0 100px;
+        background: #f5f7fb;
+    }
+
+    /* Accordion Items */
+    .svc-item {
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        margin-bottom: 14px;
+        overflow: hidden;
+        background: #ffffff;
+        transition: all 0.35s ease;
+    }
+
+    .svc-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .svc-item.active-item {
+        border-color: rgba(0, 82, 255, 0.2) !important;
+        box-shadow: 0 8px 30px rgba(0, 82, 255, 0.08);
+    }
+
+    /* Accordion Button */
+    .svc-btn {
+        background: #ffffff !important;
+        border: none !important;
+        border-radius: 14px !important;
+        padding: 20px 24px !important;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        box-shadow: none !important;
+        transition: all 0.3s ease;
+    }
+
+    .svc-btn:not(.collapsed) {
+        background: #ffffff !important;
+        color: var(--text-dark) !important;
+    }
+
+    .svc-btn::after {
+        display: none !important;
+    }
+
+    /* Service Number */
+    .svc-num {
+        font-family: var(--font);
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #e2e8f0;
+        min-width: 40px;
+        transition: color 0.3s ease;
+        line-height: 1;
+    }
+
+    .active-item .svc-num {
+        color: var(--blue);
+    }
+
+    /* Service Icon */
+    .svc-icon {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+        background: rgba(0, 82, 255, 0.06);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .svc-icon i {
+        font-size: 1.3rem;
+        color: var(--blue);
+        transition: all 0.3s ease;
+    }
+
+    .active-item .svc-icon {
+        background: var(--blue);
+    }
+
+    .active-item .svc-icon i {
+        color: #ffffff;
+    }
+
+    /* Button Text */
+    .svc-btn-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .svc-btn-title {
+        font-family: var(--font);
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #111832;
+        line-height: 1.3;
+        margin-bottom: 3px;
+    }
+
+    .svc-btn-sub {
+        font-size: 0.82rem;
+        color: #6b7280;
+        font-weight: 400;
+        line-height: 1.4;
+    }
+
+    /* Urgent Badge */
+    .svc-urgent {
+        display: none;
+        background: #ef4444;
+        color: #ffffff;
+        font-family: var(--font);
+        font-weight: 700;
+        font-size: 0.65rem;
+        padding: 4px 12px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        animation: urgentPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes urgentPulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+
+    /* Expand/Collapse Arrow */
+    .svc-btn .svc-arrow {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        background: #f5f7fb;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .svc-btn .svc-arrow i {
+        font-size: 0.9rem;
+        color: #6b7280;
+        transition: transform 0.3s ease;
+    }
+
+    .svc-btn:not(.collapsed) .svc-arrow {
+        background: var(--blue);
+    }
+
+    .svc-btn:not(.collapsed) .svc-arrow i {
+        color: #ffffff;
+        transform: rotate(180deg);
+    }
+
+    /* ============================================
+    ACCORDION BODY CONTENT
+    ============================================ */
+    .svc-body {
+        padding: 0 !important;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .svc-body-content {
+        padding: 40px 30px 40px 24px;
+    }
+
+    .svc-badge {
+        display: inline-block;
+        background: rgba(0, 82, 255, 0.08);
+        color: var(--blue);
+        font-family: var(--font);
+        font-weight: 700;
+        font-size: 0.68rem;
+        padding: 5px 14px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 16px;
+    }
+
+    .svc-badge.urgent {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+    }
+
+    .svc-body-content h3 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #111832;
+        margin-bottom: 16px;
+        letter-spacing: -0.3px;
+    }
+
+    .svc-body-content p {
+        font-size: 0.92rem;
+        color: #6b7280;
+        line-height: 1.8;
+        margin-bottom: 14px;
+    }
+
+    /* Service Features */
+    .svc-features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 28px 0 32px;
+    }
+
+    .svc-feature {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: #374151;
+    }
+
+    .svc-feature i {
+        color: var(--blue);
+        font-size: 1.05rem;
+        flex-shrink: 0;
+    }
+
+    /* Service CTA Button */
+    .btn-svc {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--blue);
+        color: #ffffff;
+        font-family: var(--font);
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 14px 30px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-svc:hover {
+        background: var(--blue-hover);
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 82, 255, 0.3);
+    }
+
+    .btn-svc i {
+        transition: transform 0.3s ease;
+    }
+
+    .btn-svc:hover i {
+        transform: translateX(4px);
+    }
+
+    /* Service Image */
+    .svc-body-img {
+        height: 100%;
+        min-height: 400px;
+        overflow: hidden;
+    }
+
+    .svc-body-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* ============================================
+    RESPONSIVE — TABLET
+    ============================================ */
+    @media (max-width: 991.98px) {
+        .banner-title {
+            font-size: 2.4rem;
+        }
+
+        .svc-btn {
+            padding: 16px 20px !important;
+            gap: 14px;
+        }
+
+        .svc-num {
+            font-size: 1.2rem;
+            min-width: 32px;
+        }
+
+        .svc-icon {
+            width: 46px;
+            height: 46px;
+            min-width: 46px;
+        }
+
+        .svc-icon i {
+            font-size: 1.15rem;
+        }
+
+        .svc-btn-title {
+            font-size: 0.95rem;
+        }
+
+        .svc-body-content {
+            padding: 30px 24px;
+        }
+
+        .svc-body-content h3 {
+            font-size: 1.35rem;
+        }
+
+        .svc-body-img {
+            min-height: 300px;
+            margin-top: 0;
+        }
+
+        .svc-features {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+    }
+
+    /* ============================================
+    RESPONSIVE — MOBILE
+    ============================================ */
+    @media (max-width: 767.98px) {
+        .page-banner {
+            padding: 140px 0 70px;
+        }
+
+        .banner-title {
+            font-size: 1.8rem;
+        }
+
+        .banner-desc {
+            font-size: 0.92rem;
+        }
+
+        .svc-section {
+            padding: 50px 0 70px;
+        }
+
+        .svc-btn {
+            padding: 14px 16px !important;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .svc-num {
+            font-size: 1rem;
+            min-width: 26px;
+        }
+
+        .svc-icon {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 10px;
+        }
+
+        .svc-icon i {
+            font-size: 1rem;
+        }
+
+        .svc-btn-title {
+            font-size: 0.88rem;
+        }
+
+        .svc-btn-sub {
+            font-size: 0.76rem;
+        }
+
+        .svc-urgent {
+            display: inline-block;
+        }
+
+        .svc-body-content {
+            padding: 24px 18px;
+        }
+
+        .svc-body-content h3 {
+            font-size: 1.2rem;
+        }
+
+        .svc-body-content p {
+            font-size: 0.86rem;
+        }
+
+        .svc-feature {
+            font-size: 0.84rem;
+        }
+
+        .svc-body-img {
+            min-height: 250px;
+        }
+
+        .btn-svc {
+            width: 100%;
+            justify-content: center;
+            padding: 13px 24px;
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .banner-title {
+            font-size: 1.55rem;
+        }
+
+        .svc-num {
+            display: none;
+        }
+
+        .svc-icon {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+        }
+
+        .svc-icon i {
+            font-size: 0.9rem;
+        }
+
+        .svc-body-img {
+            min-height: 200px;
+        }
+    }

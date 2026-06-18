@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\CompanyDetails;
 use App\Models\Contact;
+use App\Models\Service;
 use App\Models\Slider;
 use Illuminate\Http\Request;
     use Illuminate\Support\Str;
@@ -189,8 +190,12 @@ class FrontendController extends Controller
 
     public function service()
     {
-        $companyDetails = CompanyDetails::first();
-        return view('frontend.service', compact('companyDetails'));
+        $services = Service::where('status', 1)
+                    ->orderBy('serial', 'asc')
+                    ->get();
+
+                    // dd( $services );
+        return view('frontend.service', compact('services'));
     }
 
 

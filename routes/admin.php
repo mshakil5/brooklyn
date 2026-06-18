@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\FAQController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\MasterController;
 use App\Http\Controllers\Admin\SectionController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\HomeController;
@@ -158,6 +159,15 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::post('/about-cert-status', [AboutController::class, 'toggleCertStatus'])->name('about.cert.toggleStatus');
     Route::get('/about-cert/{id}/edit', [AboutController::class, 'editCert'])->name('about.cert.edit');
     Route::delete('/about-cert/{id}', [AboutController::class, 'destroyCert'])->name('about.cert.delete');
+
+    // Services
+    Route::get('/service', [ServiceController::class, 'getService'])->name('allservice');
+    Route::post('/service', [ServiceController::class, 'serviceStore']);
+    Route::get('/service/{id}/edit', [ServiceController::class, 'serviceEdit']);
+    Route::post('/service-update', [ServiceController::class, 'serviceUpdate']);
+    Route::delete('/service/{id}', [ServiceController::class, 'serviceDelete'])->name('service.delete');
+    Route::post('/service-status', [ServiceController::class, 'toggleStatus']);
+    Route::post('/services/update-order', [ServiceController::class, 'updateOrder'])->name('services.updateOrder');
 
 
 

@@ -131,6 +131,13 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ route('allservice') }}" class="nav-link {{ Route::is('allservice') ? 'active' : '' }}">
+                        <i class="ri-image-line"></i>
+                        <span>Services</span>
+                    </a>
+                </li>
+
                 
                 
                 <li class="nav-item">
