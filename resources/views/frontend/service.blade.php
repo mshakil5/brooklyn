@@ -73,8 +73,10 @@
                                             <div class="svc-features">
                                                 @foreach($features as $feature)
                                                     <div class="svc-feature">
-                                                        <i class="bi bi-check-circle-fill"></i>
-                                                        <span>{{ $feature }}</span>
+                                                        <!-- Use the dynamic icon from DB, fallback to default if missing -->
+                                                        <i class="{{ $feature['icon'] ?? 'bi bi-check-circle-fill' }}"></i>
+                                                        <!-- Target the 'text' key of the array -->
+                                                        <span>{{ $feature['text'] }}</span>
                                                     </div>
                                                 @endforeach
                                             </div>

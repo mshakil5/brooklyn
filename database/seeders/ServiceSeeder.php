@@ -1,0 +1,225 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Service;
+
+class ServiceSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // Truncate to avoid duplicates on re-run
+        Service::truncate();
+
+        $services = [
+            [
+                'title'         => 'DOT Violation Removal',
+                'subtitle'      => 'Complete violation resolution from filing to dismissal',
+                'slug'          => null, // Let the model generate it
+                'icon'          => 'bi bi-shield-exclamation',
+                'badge'         => 'URGENT SERVICE',
+                'badge_type'    => 'urgent',
+                'badge_class'   => 'urgent',
+                'heading'       => 'DOT Sidewalk Violation Removal',
+                'description'   => 'Received a DOT sidewalk violation notice? Don\'t panic. We handle the entire process from start to finish — permit filing, concrete repair or replacement, and DOT inspection coordination to get your violation dismissed quickly.',
+                'description_two'=> 'NYC property owners are legally responsible for maintaining sidewalks adjacent to their property. Failure to address a DOT violation can result in fines up to $1,000 per day. Our team resolves violations fast and affordably.',
+                'features'      => [
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => '24-Hour Emergency Response'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Full Permit & Filing Handling'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'DOT-Compliant Materials & Methods'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Inspection Coordination Included'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Violation Dismissal Guaranteed'],
+                ],
+                'image'         => null, // Leave null, frontend will show placeholder
+                'urgent_tag'    => 'URGENT',
+                'btn_text'      => 'Get Free Estimate',
+                'btn_link'      => '#',
+                'serial'        => 1,
+                'status'        => 1,
+            ],
+            [
+                'title'         => 'Sidewalk Repair',
+                'subtitle'      => 'Targeted fixes for cracks, chips & trip hazards',
+                'slug'          => null,
+                'icon'          => 'bi bi-wrench-adjustable',
+                'badge'         => 'POPULAR',
+                'badge_type'    => 'popular',
+                'badge_class'   => '',
+                'heading'       => 'Professional Sidewalk Repair',
+                'description'   => 'Not every damaged sidewalk needs full replacement. Our expert team evaluates the condition and performs targeted repairs for cracks, chips, uneven surfaces, and trip hazards — saving you time and money.',
+                'description_two'=> 'We use advanced concrete repair techniques including leveling, patching, and grinding to restore your sidewalk to safe, code-compliant condition without the cost of complete replacement.',
+                'features'      => [
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Crack & Chip Patching'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Surface Leveling & Grinding'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Trip Hazard Elimination'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Color-Matched Concrete Finish'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Same-Day Service Available'],
+                ],
+                'image'         => null,
+                'urgent_tag'    => null,
+                'btn_text'      => 'Get Free Estimate',
+                'btn_link'      => '#',
+                'serial'        => 2,
+                'status'        => 1,
+            ],
+            [
+                'title'         => 'Concrete Installation',
+                'subtitle'      => 'New sidewalk & concrete work from scratch',
+                'slug'          => null,
+                'icon'          => 'bi bi-bricks',
+                'badge'         => 'PREMIUM',
+                'badge_type'    => 'premium',
+                'badge_class'   => '',
+                'heading'       => 'New Concrete Installation',
+                'description'   => 'Need a brand new sidewalk or concrete surface? Our installation team delivers flawless results using NYC DOT-approved concrete mixes, proper reinforcement, and professional finishing techniques.',
+                'description_two'=> 'Every new installation meets or exceeds city code requirements, including proper slope for drainage, correct thickness, and expansion joints for long-term durability.',
+                'features'      => [
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'DOT-Approved Concrete Mix'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Proper Reinforcement & Joints'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Correct Drainage Slope'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Professional Smooth Finish'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => '5-Year Workmanship Warranty'],
+                ],
+                'image'         => null,
+                'urgent_tag'    => null,
+                'btn_text'      => 'Get Free Estimate',
+                'btn_link'      => '#',
+                'serial'        => 3,
+                'status'        => 1,
+            ],
+            [
+                'title'         => 'Sidewalk Replacement',
+                'subtitle'      => 'Full slab removal & new concrete pour',
+                'slug'          => null,
+                'icon'          => 'bi bi-arrow-repeat',
+                'badge'         => null,
+                'badge_type'    => 'default',
+                'badge_class'   => '',
+                'heading'       => 'Complete Sidewalk Replacement',
+                'description'   => 'When repair isn\'t enough, full replacement is the answer. We remove damaged slabs, prepare the sub-base, and pour fresh DOT-compliant concrete for a completely new sidewalk that lasts decades.',
+                'description_two'=> 'Our replacement service includes proper disposal of old concrete, sub-base compaction, rebar installation where needed, and a smooth finished surface that passes DOT inspection every time.',
+                'features'      => [
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Full Slab Demolition & Removal'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Sub-Base Preparation & Compaction'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Rebar Reinforcement Installed'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Clean Site After Completion'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'DOT Inspection Guaranteed Pass'],
+                ],
+                'image'         => null,
+                'urgent_tag'    => null,
+                'btn_text'      => 'Get Free Estimate',
+                'btn_link'      => '#',
+                'serial'        => 4,
+                'status'        => 1,
+            ],
+            [
+                'title'         => 'Driveway Installation',
+                'subtitle'      => 'Residential & commercial driveway concrete work',
+                'slug'          => null,
+                'icon'          => 'bi bi-house-door',
+                'badge'         => null,
+                'badge_type'    => 'default',
+                'badge_class'   => '',
+                'heading'       => 'Concrete Driveway Installation',
+                'description'   => 'Whether it\'s a residential home or commercial property, we install durable concrete driveways with proper slope, drainage, and a professional finish that enhances your property\'s curb appeal.',
+                'description_two'=> 'We work with your property\'s specific requirements including apron connections, garage alignment, and city regulations to deliver a driveway built to last.',
+                'features'      => [
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Custom Size & Design'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Proper Slope & Drainage'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Apron & Curb Connection'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Broom or Smooth Finish Options'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Reinforced for Heavy Vehicles'],
+                ],
+                'image'         => null,
+                'urgent_tag'    => null,
+                'btn_text'      => 'Get Free Estimate',
+                'btn_link'      => '#',
+                'serial'        => 5,
+                'status'        => 1,
+            ],
+            [
+                'title'         => 'Curb & Gutter',
+                'subtitle'      => 'Curbside reconstruction to city specs',
+                'slug'          => null,
+                'icon'          => 'bi bi-signpost-split',
+                'badge'         => null,
+                'badge_type'    => 'default',
+                'badge_class'   => '',
+                'heading'       => 'Curb & Gutter Services',
+                'description'   => 'Damaged curbs and gutters can cause drainage problems and code violations. We reconstruct curbs and gutters to exact city specifications, ensuring proper water flow and street-level compliance.',
+                'description_two'=> 'Our team handles both residential and commercial curb work, including intersection curbs, driveway aprons, and continuous gutter runs.',
+                'features'      => [
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'City Specification Compliant'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Proper Drainage Flow'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Driveway Apron Connection'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Intersection & Corner Work'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'ADA Ramp Integration'],
+                ],
+                'image'         => null,
+                'urgent_tag'    => null,
+                'btn_text'      => 'Get Free Estimate',
+                'btn_link'      => '#',
+                'serial'        => 6,
+                'status'        => 1,
+            ],
+            [
+                'title'         => 'ADA Ramps',
+                'subtitle'      => 'Wheelchair ramp installation per ADA standards',
+                'slug'          => null,
+                'icon'          => 'bi bi-universal-access-circle',
+                'badge'         => null,
+                'badge_type'    => 'default',
+                'badge_class'   => '',
+                'heading'       => 'ADA-Compliant Ramp Installation',
+                'description'   => 'Federal and city law requires accessible pedestrian ramps at intersections and commercial properties. We install ADA-compliant wheelchair ramps that meet all slope, width, and surface requirements.',
+                'description_two'=> 'Our ramps include proper detectable warning surfaces (truncated domes), correct slope ratios, and landing areas to ensure full accessibility compliance.',
+                'features'      => [
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Proper 1:12 Slope Ratio'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Truncated Dome Warning Surface'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Correct Width & Landing Areas'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Flawless Integration with Sidewalk'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Full ADA Code Compliance'],
+                ],
+                'image'         => null,
+                'urgent_tag'    => null,
+                'btn_text'      => 'Get Free Estimate',
+                'btn_link'      => '#',
+                'serial'        => 7,
+                'status'        => 1,
+            ],
+            [
+                'title'         => 'Emergency Sidewalk Services',
+                'subtitle'      => '24/7 urgent sidewalk repair & hazard response',
+                'slug'          => null,
+                'icon'          => 'bi bi-lightning-charge-fill',
+                'badge'         => '24/7 EMERGENCY',
+                'badge_type'    => 'urgent',
+                'badge_class'   => 'urgent',
+                'heading'       => 'Emergency Sidewalk Services',
+                'description'   => 'Sidewalk collapse, severe trip hazard, or imminent DOT penalty? Our emergency crew is available 24/7 to respond to urgent sidewalk situations across all five boroughs.',
+                'description_two'=> 'We prioritize safety and speed. Our emergency team arrives quickly, secures the area, and performs immediate temporary or permanent repairs to address the hazard and protect you from liability.',
+                'features'      => [
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => '24/7 Availability — Nights & Weekends'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => '1-Hour Emergency Response'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Immediate Hazard Securing'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Temporary & Permanent Repair Options'],
+                    ['icon' => 'bi bi-check-circle-fill', 'text' => 'Liability Protection Documentation'],
+                ],
+                'image'         => null,
+                'urgent_tag'    => 'URGENT',
+                'btn_text'      => 'Call Now: (718) 555-1234',
+                'btn_link'      => 'tel:7185551234', // Tel protocol for actual calling
+                'serial'        => 8,
+                'status'        => 1,
+            ],
+        ];
+
+        foreach ($services as $serviceData) {
+            Service::create($serviceData);
+        }
+    }
+}

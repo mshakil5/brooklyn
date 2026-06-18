@@ -43,8 +43,11 @@ class FrontendController extends Controller
         ])->first();
 
         $slider = Slider::where('status', 1)->latest()->first();
+        $services = Service::where('status', 1)
+                ->orderBy('serial', 'asc')
+                ->get(); 
 
-        return view('frontend.index', compact('categories', 'company', 'slider'));
+        return view('frontend.index', compact('categories', 'company', 'slider','services'));
     }
 
     public function contact()
@@ -206,7 +209,7 @@ class FrontendController extends Controller
         ));
     }
 
-    
+
     public function service()
     {
         $services = Service::where('status', 1)

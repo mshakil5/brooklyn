@@ -120,78 +120,19 @@
                 <p class="services-desc">From violation removal to complete concrete installation, we provide end-to-end sidewalk solutions for property owners across New York City.</p>
             </div>
             <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="bi bi-shield-exclamation"></i>
-                        </div>
-                        <h5>DOT Sidewalk Violation Removal</h5>
-                        <p>Complete violation resolution including permit filing, repair, and DOT inspection coordination.</p>
+                @foreach($services as $service)
+                    <div class="col-md-6 col-lg-3">
+                        <a href="{{ route('service') }}#{{ $service->slug }}" class="text-decoration-none">
+                            <div class="service-card">
+                                <div class="service-icon">
+                                    <i class="{{ $service->icon }}"></i>
+                                </div>
+                                <h5>{{ $service->title }}</h5>
+                                <p>{{ Str::limit(strip_tags($service->description), 90) }}</p>
+                            </div>
+                        </a>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="bi bi-wrench-adjustable"></i>
-                        </div>
-                        <h5>Sidewalk Repair</h5>
-                        <p>Targeted repairs for cracks, chips, uneven surfaces, and trip hazards without full replacement.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="bi bi-bricks"></i>
-                        </div>
-                        <h5>Concrete Installation</h5>
-                        <p>New concrete sidewalk installation with DOT-compliant materials and professional finishing.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="bi bi-arrow-repeat"></i>
-                        </div>
-                        <h5>Concrete Replacement</h5>
-                        <p>Full slab removal and replacement using NYC-approved concrete mix and specifications.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="bi bi-layers"></i>
-                        </div>
-                        <h5>Sidewalk Replacement</h5>
-                        <p>Complete sidewalk reconstruction for severely damaged or non-compliant walkways.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="bi bi-signpost-split"></i>
-                        </div>
-                        <h5>Curb & Gutter</h5>
-                        <p>Professional curb and gutter work to meet city specifications and drainage requirements.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="bi bi-house-door"></i>
-                        </div>
-                        <h5>Driveway Installation</h5>
-                        <p>Residential and commercial driveway concrete work with proper slope and finishing.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="bi bi-universal-access-circle"></i>
-                        </div>
-                        <h5>ADA Ramps</h5>
-                        <p>ADA-compliant wheelchair ramp installation meeting all accessibility standards and codes.</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
