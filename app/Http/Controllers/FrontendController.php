@@ -14,8 +14,8 @@
     use App\Models\AboutMilestone;
     use App\Models\AboutValue;
     use App\Models\AboutCert;
-
-    use Illuminate\Http\Request;
+use App\Models\Gallery;
+use Illuminate\Http\Request;
     use Illuminate\Support\Str;
 
 class FrontendController extends Controller
@@ -227,8 +227,9 @@ class FrontendController extends Controller
 
     public function gallery()
     {
-        $companyDetails = CompanyDetails::first();
-        return view('frontend.gallery', compact('companyDetails'));
+        $galleries = Gallery::where('status', 1)->get();
+
+        return view('frontend.gallery', compact('galleries'));
     }
 
 

@@ -15,7 +15,7 @@
                 <h1 class="banner-title">Project <span class="text-blue">Gallery</span></h1>
                 <p class="banner-desc">Browse our portfolio of sidewalk and concrete repair projects completed across New York City. See the before and after results of our work.</p>
                 <div class="banner-breadcrumb">
-                    <a href="#">Home</a>
+                    <a href="{{ route('home') }}">Home</a>
                     <i class="bi bi-chevron-right"></i>
                     <span>Gallery</span>
                 </div>
@@ -27,68 +27,55 @@
     <section class="gallery-page-section">
         <div class="container">
 
-            <!-- Category Filters -->
+            <!-- Dynamic Category Filters -->
             <div class="gallery-filters">
                 <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="dot-violations">DOT Violations</button>
-                <button class="filter-btn" data-filter="sidewalk-repair">Sidewalk Repair</button>
-                <button class="filter-btn" data-filter="concrete-replacement">Concrete Replacement</button>
-                <button class="filter-btn" data-filter="driveway">Driveway</button>
-                <button class="filter-btn" data-filter="ada-ramps">ADA Ramps</button>
+                @foreach(App\Models\Gallery::getCategoryOptions() as $key => $label)
+                    <button class="filter-btn" data-filter="{{ $key }}">{{ $label }}</button>
+                @endforeach
             </div>
 
-            <!-- Gallery Grid -->
+            <!-- Dynamic Gallery Grid -->
             <div class="gallery-grid">
-
-                <!-- Project 2 -->
-                <div class="gallery-item" data-category="dot-violations">
-                    <div class="gal-card">
-                        <div class="gal-img-wrap" data-before="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=800&q=80" data-after="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&q=80">
-                            <img src="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=800&q=80" alt="Flushing Violation" class="gal-img">
-                            <div class="gal-zoom-btn">
-                                <i class="bi bi-arrows-fullscreen"></i>
+                @foreach($galleries as $gallery)
+                    <div class="gallery-item" data-category="{{ $gallery->category }}">
+                        <div class="gal-card">
+                            <div class="gal-img-wrap" 
+                                 data-before="{{ asset($gallery->before_image) }}" 
+                                 data-after="{{ asset($gallery->after_image) }}">
+                                
+                                <img src="{{ asset($gallery->before_image ?? $gallery->preview_image) }}" 
+                                     alt="{{ $gallery->title }}" class="gal-img"
+                                     onerror="this.src='https://via.placeholder.com/800x600?text=No+Image'">
+                                     
+                                <div class="gal-zoom-btn">
+                                    <i class="bi bi-arrows-fullscreen"></i>
+                                </div>
+                                
+                                @if($gallery->before_image && $gallery->after_image)
+                                    <div class="gal-ba-toggle">
+                                        <button class="ba-btn active" data-state="before">Before</button>
+                                        <button class="ba-btn" data-state="after">After</button>
+                                    </div>
+                                @endif
                             </div>
-                            <div class="gal-ba-toggle">
-                                <button class="ba-btn active" data-state="before">Before</button>
-                                <button class="ba-btn" data-state="after">After</button>
+                            <div class="gal-info">
+                                <span class="gal-category">{{ App\Models\Gallery::getCategoryOptions()[$gallery->category] ?? 'Uncategorized' }}</span>
+                                <h5>{{ $gallery->title }}</h5>
+                                @if($gallery->location)
+                                    <p class="gal-location"><i class="bi bi-geo-alt-fill"></i> {{ $gallery->location }}</p>
+                                @endif
+                                @if($gallery->year)
+                                    <span class="gal-year">{{ $gallery->year }}</span>
+                                @endif
                             </div>
-                        </div>
-                        <div class="gal-info">
-                            <span class="gal-category">DOT Violations</span>
-                            <h5>Flushing Main Street Repair</h5>
-                            <p class="gal-location"><i class="bi bi-geo-alt-fill"></i> Flushing, Queens</p>
-                            <span class="gal-year">2024</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Project 4 -->
-                <div class="gallery-item" data-category="concrete-replacement">
-                    <div class="gal-card">
-                        <div class="gal-img-wrap" data-before="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" data-after="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=800&q=80">
-                            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Harlem Replacement" class="gal-img">
-                            <div class="gal-zoom-btn">
-                                <i class="bi bi-arrows-fullscreen"></i>
-                            </div>
-                            <div class="gal-ba-toggle">
-                                <button class="ba-btn active" data-state="before">Before</button>
-                                <button class="ba-btn" data-state="after">After</button>
-                            </div>
-                        </div>
-                        <div class="gal-info">
-                            <span class="gal-category">Concrete Replacement</span>
-                            <h5>Harlem Full Replacement</h5>
-                            <p class="gal-location"><i class="bi bi-geo-alt-fill"></i> Harlem, Manhattan</p>
-                            <span class="gal-year">2024</span>
-                        </div>
-                    </div>
-                </div>
-
-
+                @endforeach
             </div>
 
             <!-- No Results Message -->
-            <div class="gallery-no-results" id="noResults">
+            <div class="gallery-no-results" id="noResults" style="display: none;">
                 <i class="bi bi-image"></i>
                 <h4>No Projects Found</h4>
                 <p>There are no projects in this category yet. Please check back later.</p>
@@ -107,10 +94,9 @@
             <div class="lightbox-caption" id="lightboxCaption"></div>
         </div>
     </div>
-
 @endsection
-@section('script')
 
+@section('script')
     <script>
         // ========== CATEGORY FILTER ==========
         const filterBtns = document.querySelectorAll('.filter-btn');
@@ -147,11 +133,9 @@
                 const state = this.getAttribute('data-state');
                 const src = wrap.getAttribute('data-' + state);
 
-                // Update button states
                 wrap.querySelectorAll('.ba-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
 
-                // Fade transition
                 img.style.opacity = '0';
                 setTimeout(() => {
                     img.src = src;
@@ -192,9 +176,10 @@
             const item = visibleItems[currentIndex];
             const img = item.querySelector('.gal-img');
             const title = item.querySelector('h5').textContent;
-            const location = item.querySelector('.gal-location').textContent.trim();
+            const locationEl = item.querySelector('.gal-location');
+            const locationText = locationEl ? locationEl.textContent.trim() : '';
             lightboxImg.src = img.src;
-            lightboxCaption.textContent = title + ' — ' + location;
+            lightboxCaption.textContent = title + (locationText ? ' — ' + locationText : '');
         }
 
         function nextSlide() {
@@ -209,7 +194,7 @@
             updateLightbox();
         }
 
-        zoomBtns.forEach((btn, i) => {
+        zoomBtns.forEach((btn) => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const visibleList = getVisibleItems();
@@ -218,7 +203,6 @@
             });
         });
 
-        // Also open on image click
         document.querySelectorAll('.gal-img').forEach(img => {
             img.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -243,5 +227,4 @@
             if (e.key === 'ArrowLeft') prevSlide();
         });
     </script>
-
 @endsection
