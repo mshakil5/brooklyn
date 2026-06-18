@@ -25,59 +25,33 @@ class FrontendController extends Controller
 
     public function index()
     {
-        $categories = Category::with('products')->where('status', 1)->get();
-        $company = CompanyDetails::select([
-            'company_name',
-            'fav_icon',
-            'google_site_verification',
-            'footer_content',
-            'facebook',
-            'twitter',
-            'linkedin',
-            'website',
-            'phone1',
-            'email1',
-            'address1',
-            'address2',
-            'company_logo',
-            'copyright',
-            'google_map',
-        ])->first();
-
         $slider = Slider::where('status', 1)->latest()->first();
         $services = Service::where('status', 1)
                 ->orderBy('serial', 'asc')
                 ->get(); 
 
-        return view('frontend.index', compact('categories', 'company', 'slider','services'));
+        return view('frontend.index', compact('slider','services'));
     }
 
     public function contact()
     {
-        
         $company = CompanyDetails::select([
-            'company_name',
-            'fav_icon',
-            'google_site_verification',
-            'footer_content',
-            'facebook',
-            'twitter',
-            'linkedin',
-            'website',
-            'phone1',
-            'email1',
-            'address1',
-            'address2',
-            'company_logo',
-            'copyright',
-            'google_map',
+            'company_name', 'fav_icon', 'google_site_verification', 'footer_content',
+            'facebook', 'twitter', 'linkedin', 'website', 'phone1', 'email1',
+            'address1', 'address2', 'company_logo', 'copyright', 'google_map',
         ])->first();
 
-        $num1 = rand(1, 10);
-        $num2 = rand(1, 10);
-        session(['captcha_result' => $num1 + $num2]);
+        // Fetch 6 services for the Concrete Maintenance panel
+        $services = \App\Models\Service::where('status', 1)
+            ->orderBy('serial', 'asc')
+            ->take(6)
+            ->pluck('title');
 
-        return view('frontend.contact', compact('company','num1', 'num2'));
+        // Fetch stats for the panel (matching the seeded data labels)
+        $stats = \App\Models\AboutStat::whereIn('label', ['Projects Done', 'Years Experience', 'Satisfaction Rate'])
+            ->pluck('number', 'label');
+
+        return view('frontend.contact', compact('company', 'services', 'stats'));
     }
 
         public function contactStore(Request $request)
@@ -248,8 +222,8 @@ class FrontendController extends Controller
             'last_name'  => 'required|string|max:50',
             'phone'      => 'required|string|max:20',
             'email'      => 'nullable|email|max:255',
-            'address'    => 'required|string|max:500',
-            'borough'    => 'required|string|in:Manhattan,Brooklyn,Queens,Bronx,Staten Island',
+            'address'    => 'nullable|string|max:500',
+            'borough'    => 'nullable|string|in:Manhattan,Brooklyn,Queens,Bronx,Staten Island',
             'service'    => 'required|string|max:255',
             'message'    => 'nullable|string|max:2000',
         ], [
