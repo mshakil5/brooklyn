@@ -263,6 +263,14 @@
     </section>
 
 
+
+
+
+
+
+
+
+    @if($galleries->count() > 0)
     <!-- ========== RECENT PROJECTS GALLERY ========== -->
     <section class="projects-section">
         <div class="container">
@@ -271,76 +279,41 @@
                     <span class="section-tag">Our Work</span>
                     <h2 class="section-title">Recent <span class="text-blue">Projects</span></h2>
                 </div>
-                <a href="#" class="btn-gallery-link">
+                <a href="{{ route('gallery') }}" class="btn-gallery-link">
                     View Full Gallery <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
+            
+            @if($galleries->count() > 0)
             <div class="row g-3">
-                <div class="col-6 col-lg-3">
-                    <div class="gallery-card" data-img="https://images.unsplash.com/photo-1590644365607-1c5a0a1e9b9c?w=1200&q=80">
-                        <div class="gallery-img">
-                            <img src="https://images.unsplash.com/photo-1590644365607-1c5a0a1e9b9c?w=600&q=80" alt="DOT Violation Removal">
-                            <div class="gallery-zoom">
-                                <i class="bi bi-arrows-fullscreen"></i>
+                @foreach($galleries as $gallery)
+                    <div class="col-6 col-lg-3">
+                        <div class="gallery-card" data-img="{{ asset($gallery->after_image ?? $gallery->before_image) }}">
+                            <div class="gallery-img">
+                                <img src="{{ asset($gallery->after_image ?? $gallery->before_image) }}" 
+                                     alt="{{ $gallery->title }}"
+                                     onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
+                                <div class="gallery-zoom">
+                                    <i class="bi bi-arrows-fullscreen"></i>
+                                </div>
+                            </div>
+                            <div class="gallery-info">
+                                <span class="gallery-category">{{ App\Models\Gallery::getCategoryOptions()[$gallery->category] ?? 'Uncategorized' }}</span>
+                                <h5>{{ $gallery->title }}</h5>
+                                @if($gallery->location)
+                                    <p class="gallery-location">
+                                        <i class="bi bi-geo-alt-fill"></i> {{ $gallery->location }}
+                                    </p>
+                                @endif
+                                @if($gallery->year)
+                                    <span class="gallery-year">{{ $gallery->year }}</span>
+                                @endif
                             </div>
                         </div>
-                        <div class="gallery-info">
-                            <span class="gallery-category">DOT Violation Removal</span>
-                            <h5>Flatbush Avenue Sidewalk</h5>
-                            <p class="gallery-location"><i class="bi bi-geo-alt-fill"></i> Flatbush Avenue, Brooklyn</p>
-                            <span class="gallery-year">2024</span>
-                        </div>
                     </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="gallery-card" data-img="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&q=80">
-                        <div class="gallery-img">
-                            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Full Sidewalk Replacement">
-                            <div class="gallery-zoom">
-                                <i class="bi bi-arrows-fullscreen"></i>
-                            </div>
-                        </div>
-                        <div class="gallery-info">
-                            <span class="gallery-category">Full Sidewalk Replacement</span>
-                            <h5>Jackson Heights Walkway</h5>
-                            <p class="gallery-location"><i class="bi bi-geo-alt-fill"></i> Jackson Heights, Queens</p>
-                            <span class="gallery-year">2024</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="gallery-card" data-img="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=1200&q=80">
-                        <div class="gallery-img">
-                            <img src="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=600&q=80" alt="Concrete Driveway Installation">
-                            <div class="gallery-zoom">
-                                <i class="bi bi-arrows-fullscreen"></i>
-                            </div>
-                        </div>
-                        <div class="gallery-info">
-                            <span class="gallery-category">Concrete Driveway Installation</span>
-                            <h5>Residential Driveway</h5>
-                            <p class="gallery-location"><i class="bi bi-geo-alt-fill"></i> Pelham Bay, Bronx</p>
-                            <span class="gallery-year">2025</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="gallery-card" data-img="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1200&q=80">
-                        <div class="gallery-img">
-                            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&q=80" alt="ADA Ramp Construction">
-                            <div class="gallery-zoom">
-                                <i class="bi bi-arrows-fullscreen"></i>
-                            </div>
-                        </div>
-                        <div class="gallery-info">
-                            <span class="gallery-category">ADA Ramp Construction</span>
-                            <h5>Commercial ADA Compliance</h5>
-                            <p class="gallery-location"><i class="bi bi-geo-alt-fill"></i> Midtown, Manhattan</p>
-                            <span class="gallery-year">2025</span>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
+            @endif
         </div>
     </section>
 
@@ -354,6 +327,10 @@
             <div class="lightbox-caption" id="lightboxCaption"></div>
         </div>
     </div>
+    @endif
+
+
+
 
     <!-- ========== CLIENT STORIES ========== -->
     <section class="stories-section">
@@ -491,71 +468,72 @@
 
 @section('script')
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-
-
-        // ========== LIGHTBOX ==========
+        // ========== HOMEPAGE LIGHTBOX ==========
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
         const lightboxCaption = document.getElementById('lightboxCaption');
         const lightboxClose = document.getElementById('lightboxClose');
         const lightboxPrev = document.getElementById('lightboxPrev');
         const lightboxNext = document.getElementById('lightboxNext');
-        const galleryCards = document.querySelectorAll('.gallery-card');
+        const galleryCards = document.querySelectorAll('.projects-section .gallery-card');
         let currentIndex = 0;
 
-        function openLightbox(index) {
-            currentIndex = index;
-            updateLightbox();
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
+        if (galleryCards.length > 0) {
+            function openLightbox(index) {
+                currentIndex = index;
+                updateLightbox();
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function updateLightbox() {
+                const card = galleryCards[currentIndex];
+                const imgSrc = card.getAttribute('data-img');
+                const title = card.querySelector('h5').textContent;
+                
+                // Safely get location text without the icon text
+                const locationEl = card.querySelector('.gallery-location');
+                const locationText = locationEl ? locationEl.textContent.trim() : '';
+                
+                lightboxImg.src = imgSrc;
+                lightboxCaption.textContent = title + (locationText ? ' — ' + locationText : '');
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % galleryCards.length;
+                updateLightbox();
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + galleryCards.length) % galleryCards.length;
+                updateLightbox();
+            }
+
+            galleryCards.forEach((card, index) => {
+                card.addEventListener('click', () => openLightbox(index));
+            });
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightboxNext.addEventListener('click', nextSlide);
+            lightboxPrev.addEventListener('click', prevSlide);
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowRight') nextSlide();
+                if (e.key === 'ArrowLeft') prevSlide();
+            });
         }
-
-        function closeLightbox() {
-            lightbox.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        function updateLightbox() {
-            const card = galleryCards[currentIndex];
-            const imgSrc = card.getAttribute('data-img');
-            const title = card.querySelector('h5').textContent;
-            const location = card.querySelector('.gallery-location').textContent.trim();
-            lightboxImg.src = imgSrc;
-            lightboxCaption.textContent = title + ' — ' + location;
-        }
-
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % galleryCards.length;
-            updateLightbox();
-        }
-
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + galleryCards.length) % galleryCards.length;
-            updateLightbox();
-        }
-
-        galleryCards.forEach((card, index) => {
-            card.addEventListener('click', () => openLightbox(index));
-        });
-
-        lightboxClose.addEventListener('click', closeLightbox);
-        lightboxNext.addEventListener('click', nextSlide);
-        lightboxPrev.addEventListener('click', prevSlide);
-
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) closeLightbox();
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (!lightbox.classList.contains('active')) return;
-            if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowRight') nextSlide();
-            if (e.key === 'ArrowLeft') prevSlide();
-        });
-
-
     </script>
 
 @endsection

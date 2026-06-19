@@ -30,7 +30,11 @@ class FrontendController extends Controller
                 ->orderBy('serial', 'asc')
                 ->get(); 
 
-        return view('frontend.index', compact('slider','services'));
+        $galleries = Gallery::where('status', 1)
+            ->orderBy('id', 'desc')
+            ->take(4)
+            ->get();
+        return view('frontend.index', compact('slider','services','galleries'));
     }
 
     public function contact()

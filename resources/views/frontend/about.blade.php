@@ -14,6 +14,11 @@
                 <p class="about-hero-desc">{{ $aboutPage->hero_description ?? '' }}</p>
             </div>
 
+            
+    
+            <!-- Grid Pattern Overlay -->
+            <div class="hero-grid-overlay"></div>
+
             <!-- Stats Grid -->
             <div class="about-stats-grid">
                 @foreach($stats as $stat)

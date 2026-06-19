@@ -9,6 +9,8 @@
 <!-- ========== PAGE BANNER ========== -->
 <section class="page-banner">
     <div class="banner-overlay"></div>
+            <!-- Grid Pattern Overlay -->
+            <div class="hero-grid-overlay"></div>
     <div class="container">
         <div class="banner-content">
             <h1 class="banner-title">NYC Sidewalk &<br><span class="text-blue">Concrete Services</span></h1>

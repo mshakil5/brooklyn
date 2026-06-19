@@ -8,7 +8,14 @@
 @section('content')
     <!-- ========== PAGE BANNER ========== -->
     <section class="page-banner">
-        <div class="banner-overlay"></div>
+    
+            <!-- Grid Pattern Overlay -->
+            <div class="hero-grid-overlay"></div>
+
+            
+    <!-- Dark Gradient Overlay -->
+    <div class="hero-bg-overlay"></div>
+    
         <div class="container">
             <div class="banner-content">
                 <span class="banner-tag">Our Portfolio</span>

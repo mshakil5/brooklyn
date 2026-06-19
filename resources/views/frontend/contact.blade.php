@@ -12,6 +12,11 @@
         <section class="page-banner">
             <div class="banner-overlay"></div>
             <div class="container">
+                
+    
+            <!-- Grid Pattern Overlay -->
+            <div class="hero-grid-overlay"></div>
+            
                 <div class="banner-content">
                     <span class="banner-tag">Contact Us</span>
                     <h1 class="banner-title">Request a <span class="text-blue">Free Estimate</span></h1>

@@ -13,6 +13,8 @@
 <!-- ========== PAGE BANNER ========== -->
 <section class="page-banner">
     <div class="banner-overlay"></div>
+            <!-- Grid Pattern Overlay -->
+            <div class="hero-grid-overlay"></div>
     <div class="container">
         <div class="banner-content">
             <span class="banner-tag">Client Reviews</span>
