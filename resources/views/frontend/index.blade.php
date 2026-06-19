@@ -4,343 +4,7 @@
 
 
 <style>
-    /* ============================================
-    HERO SECTION
-    ============================================ */
-    .hero-section {
-        position: relative;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-        background: #0A0F1C;
-    }
 
-    .hero-bg-image {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-    }
-
-    .hero-bg-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0.25;
-    }
-
-    .hero-bg-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-            to bottom right,
-            #0A0F1C 0%,
-            rgba(10, 15, 28, 0.85) 50%,
-            rgba(10, 15, 28, 0.60) 100%
-        );
-        z-index: 1;
-    }
-
-    /* Grid pattern overlay */
-    .hero-grid-overlay {
-        position: absolute;
-        inset: 0;
-        opacity: 0.04;
-        background-image: 
-            linear-gradient(rgba(255, 255, 255) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255) 1px, transparent 1px);
-        background-size: 60px 60px;
-        z-index: 2;
-    }
-
-    .hero-section .container {
-        position: relative;
-        z-index: 10;
-        padding-top: 7rem;
-        padding-bottom: 5rem;
-    }
-
-    @media (min-width: 1024px) {
-        .hero-section .container {
-            padding-top: 9rem;
-            padding-bottom: 7rem;
-        }
-    }
-
-    .hero-row {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 3rem;
-        align-items: center;
-    }
-
-    @media (min-width: 1024px) {
-        .hero-row {
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-        }
-    }
-
-    /* ---- Amber Tag ---- */
-    .amber-tag {
-        display: inline-block;
-        background: rgba(245, 158, 11, 0.15);
-        color: #F59E0B;
-        padding: 6px 14px;
-        border-radius: 6px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-        margin-bottom: 1.25rem;
-        border: 1px solid rgba(245, 158, 11, 0.2);
-    }
-
-    /* ---- Left Content ---- */
-    .hero-subtitle-small {
-        color: #0052FF;
-        font-weight: 700;
-        font-size: 1rem;
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-        margin-bottom: 0.75rem;
-    }
-
-    .hero-title {
-        font-size: clamp(2.4rem, 5.5vw, 4.5rem);
-        font-weight: 700;
-        color: #ffffff;
-        line-height: 1.0;
-        margin-bottom: 1.5rem;
-        letter-spacing: -0.025em;
-    }
-
-    .hero-title .text-blue {
-        color: #0052FF;
-    }
-
-    .hero-desc {
-        font-size: 1.125rem;
-        color: #94A3B8;
-        line-height: 1.625;
-        margin-bottom: 2.5rem;
-        max-width: 32rem;
-    }
-
-    /* ---- Highlights with Circle Icons ---- */
-    .hero-highlights {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1.5rem;
-    }
-
-    .highlight-item {
-        display: flex;
-        align-items: center;
-        gap: 0.625rem;
-    }
-
-    .highlight-icon-circle {
-        width: 1.75rem;
-        height: 1.75rem;
-        border-radius: 50%;
-        background: rgba(0, 82, 255, 0.15);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-
-    .highlight-icon-circle i,
-    .highlight-icon-circle svg {
-        color: #0052FF;
-        font-size: 0.8125rem;
-    }
-
-    .highlight-item span {
-        color: #94A3B8;
-        font-size: 0.875rem;
-        font-weight: 500;
-    }
-
-    /* ---- Right Form Card ---- */
-    .hero-form-card {
-        background: rgba(255, 255, 255, 0.06);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.10);
-        border-radius: 0.75rem;
-        padding: 2rem;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    }
-
-    .form-card-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #ffffff;
-        margin-bottom: 0.25rem;
-    }
-
-    .form-card-subtitle {
-        font-size: 0.875rem;
-        color: #64748B;
-        margin-bottom: 1.5rem;
-    }
-
-    /* Form Labels */
-    .form-label-custom {
-        display: block;
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: #94A3B8;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.375rem;
-    }
-
-    .form-label-custom .required {
-        color: #0052FF;
-    }
-
-    /* Form Inputs */
-    .hero-form-card .form-control {
-        width: 100%;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 0.375rem;
-        padding: 0.75rem 1rem;
-        font-size: 0.875rem;
-        color: #ffffff;
-        font-family: var(--font);
-        transition: all 0.3s ease;
-    }
-
-    .hero-form-card .form-control::placeholder {
-        color: #475569;
-    }
-
-    .hero-form-card .form-control:focus {
-        background: rgba(255, 255, 255, 0.12);
-        border-color: #0052FF;
-        box-shadow: none;
-        outline: none;
-        color: #ffffff;
-    }
-
-    .form-group {
-        margin-bottom: 1rem;
-    }
-
-    .form-row {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    @media (min-width: 640px) {
-        .form-row {
-            grid-template-columns: 1fr 1fr;
-        }
-    }
-
-    .btn-submit {
-        width: 100%;
-        background: #0052FF;
-        color: #ffffff;
-        border: none;
-        border-radius: 0.375rem;
-        padding: 1rem 1.5rem;
-        font-family: var(--font);
-        font-size: 1rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 0.5rem;
-    }
-
-    .btn-submit:hover {
-        background: #003ACC;
-        color: #ffffff;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 15px -3px rgba(0, 82, 255, 0.3);
-    }
-
-    .btn-submit:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-
-    .form-privacy-note {
-        text-align: center;
-        font-size: 0.75rem;
-        color: #475569;
-        margin-top: 1rem;
-    }
-
-    /* ---- Scroll Indicator ---- */
-    .scroll-indicator {
-        position: absolute;
-        bottom: 2rem;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-        z-index: 10;
-    }
-
-    .scroll-indicator span {
-        font-size: 0.75rem;
-        color: rgba(255, 255, 255, 0.3);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-    }
-
-    .scroll-line {
-        width: 1px;
-        height: 2.5rem;
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
-    }
-
-    /* ============================================
-    STATS BAR
-    ============================================ */
-    .stats-bar {
-        position: relative;
-        z-index: 10;
-        background: #0052FF;
-        padding: 2rem 0;
-    }
-
-    .stat-item {
-        text-align: center;
-        padding: 0.5rem 0.75rem;
-        border-right: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .stat-item:last-child {
-        border-right: none;
-    }
-
-    .stat-number {
-        display: block;
-        font-size: 2rem;
-        font-weight: 800;
-        color: #ffffff;
-        line-height: 1.2;
-        margin-bottom: 0.25rem;
-    }
-
-    .stat-label {
-        display: block;
-        font-size: 0.75rem;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.75);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
 </style>
 
 <!-- ========== HERO SECTION ========== -->
@@ -370,7 +34,25 @@
                 <p class="hero-subtitle-small">FREE INSTANT CHECK</p>
                 
                 <h1 class="hero-title">
-                    {!! $slider->title ?? 'Does Your Sidewalk<br>Have <span class="text-blue">Violations?</span>' !!}
+                    @php
+                        $defaultTitle = 'Does Your Sidewalk<br>Have <span class="text-blue">Violations?</span>';
+                        $title = $slider->title ?? $defaultTitle;
+                        
+                        // If title doesn't contain HTML span, wrap the last word in blue
+                        if (strpos($title, '<span') === false) {
+                            // Split by spaces and wrap last word
+                            $words = explode(' ', $title);
+                            if (count($words) > 0) {
+                                $lastWord = array_pop($words);
+                                $words[] = '<span class="text-blue">' . $lastWord . '</span>';
+                                $title = implode(' ', $words);
+                            }
+                        }
+                        
+                        // Handle line breaks - convert \n to <br> if present
+                        $title = nl2br($title);
+                    @endphp
+                    {!! $title !!}
                 </h1>
                 
                 <p class="hero-desc">
@@ -454,31 +136,31 @@
     
 </section>
 
-    <!-- Stats Bar -->
-    <div class="stats-bar">
-        <div class="container">
-            <div class="row g-0">
-                @php
-                    $stats = is_array($slider->stats) ? $slider->stats : [];
-                    $defaultStats = [
-                        ['number' => '5,000+', 'label' => 'Projects Completed'],
-                        ['number' => '25+', 'label' => 'Years in Business'],
-                        ['number' => '100%', 'label' => 'DOT Compliant'],
-                        ['number' => '24/7', 'label' => 'Emergency Service'],
-                    ];
-                    $stats = !empty($stats) ? $stats : $defaultStats;
-                @endphp
-                @foreach($stats as $stat)
-                    <div class="col-6 col-md-2">
-                        <div class="stat-item">
-                            <span class="stat-number">{{ $stat['number'] ?? '' }}</span>
-                            <span class="stat-label">{{ $stat['label'] ?? '' }}</span>
-                        </div>
+<!-- Stats Bar -->
+<div class="stats-bar">
+    <div class="container">
+        <div class="row g-0">
+            @php
+                $stats = is_array($slider->stats) ? $slider->stats : [];
+                $defaultStats = [
+                    ['number' => '5,000+', 'label' => 'Projects Completed'],
+                    ['number' => '25+', 'label' => 'Years in Business'],
+                    ['number' => '100%', 'label' => 'DOT Compliant'],
+                    ['number' => '24/7', 'label' => 'Emergency Service'],
+                ];
+                $stats = !empty($stats) ? $stats : $defaultStats;
+            @endphp
+            @foreach($stats as $stat)
+                <div class="col-6 col-md-2">
+                    <div class="stat-item">
+                        <span class="stat-number">{{ $stat['number'] ?? '' }}</span>
+                        <span class="stat-label">{{ $stat['label'] ?? '' }}</span>
                     </div>
-                @endforeach
-            </div>
+                </div>
+            @endforeach
         </div>
     </div>
+</div>
 
 
     <!-- ========== SERVICES SECTION ========== -->
