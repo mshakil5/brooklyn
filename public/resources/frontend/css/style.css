@@ -184,6 +184,14 @@ img {
     transition: all 0.3s ease;
 }
 
+
+
+
+
+
+
+
+
 /* ============================================
    HERO SECTION
    ============================================ */
@@ -193,8 +201,6 @@ img {
     padding-top: 100px;
     padding-bottom: 0;
     background: var(--dark-bg);
-    /* Background image from the screenshot — sidewalk/concrete scene */
-    background-image: url('https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?w=1920&q=80');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -396,6 +402,35 @@ img {
     text-transform: uppercase;
     letter-spacing: 0.8px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ============================================
    RESPONSIVE — TABLET
