@@ -154,4 +154,7 @@
         </div>
     </section>
 
+    
+    @include('frontend.inc.estimate')
+
 @endsection

@@ -107,6 +107,9 @@
     </div>
 </section>
 
+
+    @include('frontend.inc.estimate')
+
 @endsection
 
 @section('script')

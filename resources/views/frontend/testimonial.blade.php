@@ -104,6 +104,7 @@
 
 
 
+    @include('frontend.inc.estimate')
 
 @endsection
 

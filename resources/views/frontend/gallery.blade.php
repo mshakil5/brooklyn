@@ -94,6 +94,11 @@
             <div class="lightbox-caption" id="lightboxCaption"></div>
         </div>
     </div>
+
+    
+    @include('frontend.inc.estimate')
+
+
 @endsection
 
 @section('script')
