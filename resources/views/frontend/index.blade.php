@@ -3,112 +3,482 @@
 @section('content')
 
 
-    <!-- ========== HERO SECTION ========== -->
-    <section class="hero-section"
+<style>
+    /* ============================================
+    HERO SECTION
+    ============================================ */
+    .hero-section {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        background: #0A0F1C;
+    }
+
+    .hero-bg-image {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+    }
+
+    .hero-bg-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.25;
+    }
+
+    .hero-bg-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom right,
+            #0A0F1C 0%,
+            rgba(10, 15, 28, 0.85) 50%,
+            rgba(10, 15, 28, 0.60) 100%
+        );
+        z-index: 1;
+    }
+
+    /* Grid pattern overlay */
+    .hero-grid-overlay {
+        position: absolute;
+        inset: 0;
+        opacity: 0.04;
+        background-image: 
+            linear-gradient(rgba(255, 255, 255) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255) 1px, transparent 1px);
+        background-size: 60px 60px;
+        z-index: 2;
+    }
+
+    .hero-section .container {
+        position: relative;
+        z-index: 10;
+        padding-top: 7rem;
+        padding-bottom: 5rem;
+    }
+
+    @media (min-width: 1024px) {
+        .hero-section .container {
+            padding-top: 9rem;
+            padding-bottom: 7rem;
+        }
+    }
+
+    .hero-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        align-items: center;
+    }
+
+    @media (min-width: 1024px) {
+        .hero-row {
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+        }
+    }
+
+    /* ---- Amber Tag ---- */
+    .amber-tag {
+        display: inline-block;
+        background: rgba(245, 158, 11, 0.15);
+        color: #F59E0B;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        margin-bottom: 1.25rem;
+        border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    /* ---- Left Content ---- */
+    .hero-subtitle-small {
+        color: #0052FF;
+        font-weight: 700;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        margin-bottom: 0.75rem;
+    }
+
+    .hero-title {
+        font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 1.0;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.025em;
+    }
+
+    .hero-title .text-blue {
+        color: #0052FF;
+    }
+
+    .hero-desc {
+        font-size: 1.125rem;
+        color: #94A3B8;
+        line-height: 1.625;
+        margin-bottom: 2.5rem;
+        max-width: 32rem;
+    }
+
+    /* ---- Highlights with Circle Icons ---- */
+    .hero-highlights {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+
+    .highlight-item {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+    }
+
+    .highlight-icon-circle {
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 50%;
+        background: rgba(0, 82, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .highlight-icon-circle i,
+    .highlight-icon-circle svg {
+        color: #0052FF;
+        font-size: 0.8125rem;
+    }
+
+    .highlight-item span {
+        color: #94A3B8;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    /* ---- Right Form Card ---- */
+    .hero-form-card {
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: 0.75rem;
+        padding: 2rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .form-card-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 0.25rem;
+    }
+
+    .form-card-subtitle {
+        font-size: 0.875rem;
+        color: #64748B;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Form Labels */
+    .form-label-custom {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #94A3B8;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.375rem;
+    }
+
+    .form-label-custom .required {
+        color: #0052FF;
+    }
+
+    /* Form Inputs */
+    .hero-form-card .form-control {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 0.375rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+        color: #ffffff;
+        font-family: var(--font);
+        transition: all 0.3s ease;
+    }
+
+    .hero-form-card .form-control::placeholder {
+        color: #475569;
+    }
+
+    .hero-form-card .form-control:focus {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: #0052FF;
+        box-shadow: none;
+        outline: none;
+        color: #ffffff;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    @media (min-width: 640px) {
+        .form-row {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .btn-submit {
+        width: 100%;
+        background: #0052FF;
+        color: #ffffff;
+        border: none;
+        border-radius: 0.375rem;
+        padding: 1rem 1.5rem;
+        font-family: var(--font);
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 0.5rem;
+    }
+
+    .btn-submit:hover {
+        background: #003ACC;
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 82, 255, 0.3);
+    }
+
+    .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .form-privacy-note {
+        text-align: center;
+        font-size: 0.75rem;
+        color: #475569;
+        margin-top: 1rem;
+    }
+
+    /* ---- Scroll Indicator ---- */
+    .scroll-indicator {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        z-index: 10;
+    }
+
+    .scroll-indicator span {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    .scroll-line {
+        width: 1px;
+        height: 2.5rem;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
+    }
+
+    /* ============================================
+    STATS BAR
+    ============================================ */
+    .stats-bar {
+        position: relative;
+        z-index: 10;
+        background: #0052FF;
+        padding: 2rem 0;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 0.5rem 0.75rem;
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .stat-item:last-child {
+        border-right: none;
+    }
+
+    .stat-number {
+        display: block;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #ffffff;
+        line-height: 1.2;
+        margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.75);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+</style>
+
+<!-- ========== HERO SECTION ========== -->
+<section class="hero-section">
+    <!-- Background Image -->
+    <div class="hero-bg-image">
         @if($slider && $slider->image)
-            style="background-image: url('{{ asset('uploads/slider/' . $slider->image) }}');"
+            <img src="{{ asset('uploads/slider/' . $slider->image) }}" alt="NYC streets">
+        @else
+            <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1800&q=85&fit=crop" alt="NYC streets">
         @endif
-        >
-        <div class="hero-bg-overlay"></div>
-        <div class="container">
-            <div class="row align-items-center hero-row">
-                <!-- Left Content -->
-                <div class="col-lg-6 hero-left">
-                    <h1 class="hero-title">
-                        {!! $slider->title ?? 'Does Your Sidewalk Have <span class="text-blue">Violations?</span>' !!}
-                    </h1>
-                    <p class="hero-desc">
-                        {{ $slider->subtitle ?? 'Enter your New York property information below to check for any sidewalk violations. We help property owners resolve DOT violations quickly and affordably.' }}
-                    </p>
-                    @php
-                        // Check if already an array (Laravel auto-casts JSON columns)
-                        $highlights = is_array($slider->highlights) ? $slider->highlights : [];
-                        $defaultHighlights = [
-                            ['icon' => 'bi bi-check-circle-fill', 'text' => 'Free Property Inspection'],
-                            ['icon' => 'bi bi-check-circle-fill', 'text' => 'DOT Violation Experts'],
-                            ['icon' => 'bi bi-check-circle-fill', 'text' => 'Fast & Affordable Repairs'],
-                        ];
-                        $highlights = !empty($highlights) ? $highlights : $defaultHighlights;
-                    @endphp
-                    <div class="hero-highlights">
-                        @foreach($highlights as $item)
-                            <div class="highlight-item">
-                                <i class="{{ $item['icon'] ?? 'bi bi-check-circle-fill' }}"></i>
-                                <span>{{ $item['text'] ?? '' }}</span>
+    </div>
+    
+    <!-- Dark Gradient Overlay -->
+    <div class="hero-bg-overlay"></div>
+    
+    <!-- Grid Pattern Overlay -->
+    <div class="hero-grid-overlay"></div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <div class="hero-row">
+            <!-- Left Content -->
+            <div class="hero-left">
+                <span class="amber-tag">DOT Certified · Licensed & Insured Since 1998</span>
+                
+                <p class="hero-subtitle-small">FREE INSTANT CHECK</p>
+                
+                <h1 class="hero-title">
+                    {!! $slider->title ?? 'Does Your Sidewalk<br>Have <span class="text-blue">Violations?</span>' !!}
+                </h1>
+                
+                <p class="hero-desc">
+                    {{ $slider->subtitle ?? 'Enter your NYC property details below to quickly check if your sidewalk may have DOT violations. Our experts respond within 2 business hours.' }}
+                </p>
+                
+                @php
+                    $highlights = is_array($slider->highlights) ? $slider->highlights : [];
+                    $defaultHighlights = [
+                        ['icon' => 'bi bi-lightning-charge-fill', 'text' => 'Fast Response'],
+                        ['icon' => 'bi bi-currency-dollar', 'text' => 'Free Estimate'],
+                        ['icon' => 'bi bi-hand-thumbs-up-fill', 'text' => 'No Obligation'],
+                    ];
+                    $highlights = !empty($highlights) ? $highlights : $defaultHighlights;
+                @endphp
+                <div class="hero-highlights">
+                    @foreach($highlights as $item)
+                        <div class="highlight-item">
+                            <div class="highlight-icon-circle">
+                                <i class="{{ $item['icon'] ?? 'bi bi-lightning-charge-fill' }}"></i>
                             </div>
-                        @endforeach
-                    </div>
-                </div>
-
-                <!-- Right Form -->
-                <div class="col-lg-6 hero-right">
-                    <div class="hero-form-card">
-                        <div class="form-card-header">
-                            <i class="bi bi-search"></i>
-                            <h3>Check My Property</h3>
-                        </div>
-                        <form id="checkForm" action="{{ route('contact.store') }}" method="POST">
-                            @csrf
-                            <div class="mb-3">
-                                <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" placeholder="Property Address" value="{{ old('address') }}" required>
-                                @error('address')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror" placeholder="Full Name" value="{{ old('first_name') }}" required>
-                                @error('first_name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <input type="tel" name="phone" class="form-control @error('phone') is-invalid @enderror" placeholder="Phone Number" value="{{ old('phone') }}" required>
-                                @error('phone')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-4">
-                                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email Address" value="{{ old('email') }}" required>
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <button type="submit" class="btn-submit">
-                                Check Now
-                                <i class="bi bi-arrow-right"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Stats Bar -->
-        <div class="stats-bar">
-            <div class="container">
-                <div class="row g-0">
-                    @php
-                        $stats = is_array($slider->stats) ? $slider->stats : [];
-                        $defaultStats = [
-                            ['number' => '5,000+', 'label' => 'Projects Completed'],
-                            ['number' => '25+', 'label' => 'Years in Business'],
-                            ['number' => '100%', 'label' => 'DOT Compliant'],
-                            ['number' => '24/7', 'label' => 'Emergency Service'],
-                        ];
-                        $stats = !empty($stats) ? $stats : $defaultStats;
-                    @endphp
-                    @foreach($stats as $stat)
-                        <div class="col-6 col-md-2">
-                            <div class="stat-item">
-                                <span class="stat-number">{{ $stat['number'] ?? '' }}</span>
-                                <span class="stat-label">{{ $stat['label'] ?? '' }}</span>
-                            </div>
+                            <span>{{ $item['text'] ?? '' }}</span>
                         </div>
                     @endforeach
                 </div>
             </div>
+
+            <!-- Right Form -->
+            <div class="hero-right">
+                <div class="hero-form-card">
+                    <h2 class="form-card-title">Check My Property</h2>
+                    <p class="form-card-subtitle">Free · Takes 30 seconds · No obligation</p>
+                    
+                    <form id="checkForm" action="{{ route('contact.store') }}" method="POST">
+                        @csrf
+                        
+                        <div class="form-group">
+                            <label class="form-label-custom">Property Address <span class="required">*</span></label>
+                            <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" placeholder="e.g. 123 Atlantic Ave, Brooklyn, NY" value="{{ old('address') }}" required>
+                            @error('address')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label-custom">Your Name</label>
+                                <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror" placeholder="John Smith" value="{{ old('first_name') }}">
+                                @error('first_name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label-custom">Phone Number</label>
+                                <input type="tel" name="phone" class="form-control @error('phone') is-invalid @enderror" placeholder="(718) 000-0000" value="{{ old('phone') }}">
+                                @error('phone')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label-custom">Email Address</label>
+                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="you@example.com" value="{{ old('email') }}">
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                        <button type="submit" class="btn-submit">
+                            Check My Property →
+                        </button>
+                    </form>
+                    
+                    <p class="form-privacy-note">🔒 Your information is private and never shared.</p>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+    
+</section>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="container">
+            <div class="row g-0">
+                @php
+                    $stats = is_array($slider->stats) ? $slider->stats : [];
+                    $defaultStats = [
+                        ['number' => '5,000+', 'label' => 'Projects Completed'],
+                        ['number' => '25+', 'label' => 'Years in Business'],
+                        ['number' => '100%', 'label' => 'DOT Compliant'],
+                        ['number' => '24/7', 'label' => 'Emergency Service'],
+                    ];
+                    $stats = !empty($stats) ? $stats : $defaultStats;
+                @endphp
+                @foreach($stats as $stat)
+                    <div class="col-6 col-md-2">
+                        <div class="stat-item">
+                            <span class="stat-number">{{ $stat['number'] ?? '' }}</span>
+                            <span class="stat-label">{{ $stat['label'] ?? '' }}</span>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
 
 
     <!-- ========== SERVICES SECTION ========== -->
