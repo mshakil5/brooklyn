@@ -29,67 +29,80 @@
     <section class="why-section">
         <div class="container">
             <div class="row align-items-center">
+                
+            <!-- Grid Pattern Overlay -->
+            <div class="hero-grid-overlay"></div>
+            
+                <!-- Left Column -->
                 <div class="col-lg-5">
                     <div class="why-content">
-                        <span class="why-tag">Why Choose Us</span>
+                        <span class="why-tag">Why NYC Sidewalk Pros</span>
                         <h2 class="why-title">The Standard for <span class="text-blue">NYC Concrete</span> Work</h2>
-                        <p class="why-desc">NYC Sidewalk Pros is the trusted choice for property owners, building managers, and contractors across all five boroughs. Our commitment to quality, compliance, and customer satisfaction sets us apart.</p>
-                        <div class="why-credentials">
-                            <div class="credential-item">
-                                <i class="bi bi-patch-check-fill"></i>
-                                <span>Licensed & Insured</span>
+                        <p class="why-desc">For over 25 years, we've set the benchmark for quality, speed, and professionalism in New York City sidewalk repair. When you hire us, you get a partner — not just a contractor.</p>
+                        
+                        <!-- New Stats Row -->
+                        <div class="why-stats-row">
+                            <div class="why-stat-item">
+                                <span class="why-stat-val">A+</span>
+                                <span class="why-stat-lbl">BBB Rating</span>
                             </div>
-                            <div class="credential-item">
-                                <i class="bi bi-patch-check-fill"></i>
-                                <span>DOT Certified Contractor</span>
+                            <div class="why-stat-divider"></div>
+                            <div class="why-stat-item">
+                                <span class="why-stat-val">4.9 <small>★</small></span>
+                                <span class="why-stat-lbl">Google Rating</span>
                             </div>
-                            <div class="credential-item">
-                                <i class="bi bi-patch-check-fill"></i>
-                                <span>5-Year Workmanship Warranty</span>
-                            </div>
-                            <div class="credential-item">
-                                <i class="bi bi-patch-check-fill"></i>
-                                <span>All 5 Boroughs Covered</span>
+                            <div class="why-stat-divider"></div>
+                            <div class="why-stat-item">
+                                <span class="why-stat-val">500+</span>
+                                <span class="why-stat-lbl">Reviews</span>
                             </div>
                         </div>
                     </div>
                 </div>
+                
+                <!-- Right Column: 6 Cards -->
                 <div class="col-lg-7">
                     <div class="why-cards-row">
                         <div class="why-card">
-                            <div class="why-card-icon">
-                                <i class="bi bi-award-fill"></i>
-                            </div>
-                            <div class="why-card-info">
-                                <span class="why-card-value">A+</span>
-                                <span class="why-card-label">BBB Rating</span>
+                            <div class="why-card-icon"><i class="bi bi-shield-lock-fill"></i></div>
+                            <div class="why-card-body">
+                                <h5 class="why-card-title">Licensed & Insured</h5>
+                                <p class="why-card-text">Fully licensed by NYC and carrying comprehensive liability insurance to protect your property.</p>
                             </div>
                         </div>
                         <div class="why-card">
-                            <div class="why-card-icon">
-                                <i class="bi bi-star-fill"></i>
-                            </div>
-                            <div class="why-card-info">
-                                <span class="why-card-value">4.9 <small>★</small></span>
-                                <span class="why-card-label">Google Rating</span>
+                            <div class="why-card-icon"><i class="bi bi-patch-check-fill"></i></div>
+                            <div class="why-card-body">
+                                <h5 class="why-card-title">DOT Certified</h5>
+                                <p class="why-card-text">Officially certified by the NYC Department of Transportation for violation removal and compliance work.</p>
                             </div>
                         </div>
                         <div class="why-card">
-                            <div class="why-card-icon">
-                                <i class="bi bi-chat-square-text-fill"></i>
-                            </div>
-                            <div class="why-card-info">
-                                <span class="why-card-value">500+</span>
-                                <span class="why-card-label">Customer Reviews</span>
+                            <div class="why-card-icon"><i class="bi bi-lightning-fill"></i></div>
+                            <div class="why-card-body">
+                                <h5 class="why-card-title">Fast Turnaround</h5>
+                                <p class="why-card-text">Most projects completed within 24–72 hours. Emergency same-day service available.</p>
                             </div>
                         </div>
                         <div class="why-card">
-                            <div class="why-card-icon">
-                                <i class="bi bi-people-fill"></i>
+                            <div class="why-card-icon"><i class="bi bi-tag-fill"></i></div>
+                            <div class="why-card-body">
+                                <h5 class="why-card-title">Transparent Pricing</h5>
+                                <p class="why-card-text">No hidden fees. Free written estimates and competitive pricing with no surprise charges.</p>
                             </div>
-                            <div class="why-card-info">
-                                <span class="why-card-value">5,000+</span>
-                                <span class="why-card-label">Projects Done</span>
+                        </div>
+                        <div class="why-card">
+                            <div class="why-card-icon"><i class="bi bi-people-fill"></i></div>
+                            <div class="why-card-body">
+                                <h5 class="why-card-title">Expert Team</h5>
+                                <p class="why-card-text">Our crews are trained professionals with decades of hands-on NYC concrete and masonry experience.</p>
+                            </div>
+                        </div>
+                        <div class="why-card">
+                            <div class="why-card-icon"><i class="bi bi-star-fill"></i></div>
+                            <div class="why-card-body">
+                                <h5 class="why-card-title">5-Star Reputation</h5>
+                                <p class="why-card-text">Hundreds of verified 5-star reviews from property owners across all five boroughs.</p>
                             </div>
                         </div>
                     </div>
@@ -97,7 +110,6 @@
             </div>
         </div>
     </section>
-
 
 
 

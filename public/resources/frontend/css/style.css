@@ -521,30 +521,6 @@ img {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* ============================================
    RESPONSIVE — TABLET
    ============================================ */
@@ -788,6 +764,9 @@ img {
     margin: 0;
 }
 
+
+
+
 /* ============================================
    WHY NYC SIDEWALK PROS SECTION
    ============================================ */
@@ -854,35 +833,61 @@ img {
     font-size: 0.98rem;
     color: var(--text-muted);
     line-height: 1.85;
-    margin-bottom: 32px;
+    margin-bottom: 0; /* Removed bottom margin since stats are directly below */
 }
 
-.why-credentials {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.credential-item {
+/* --- New Left Side Stats Row --- */
+.why-stats-row {
     display: flex;
     align-items: center;
-    gap: 14px;
-    font-size: 0.95rem;
+    justify-content: flex-start;
+    gap: 28px;
+    margin-top: 35px;
+    background: var(--dark-card);
+    border: 1px solid var(--border-dark);
+    border-radius: 14px;
+    padding: 24px 32px;
+    width: fit-content;
+}
+
+.why-stat-item {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.why-stat-val {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-white);
+    line-height: 1.2;
+}
+
+.why-stat-val small {
+    color: #f6ad55;
+    font-size: 1.1rem;
+}
+
+.why-stat-lbl {
+    font-size: 0.78rem;
     font-weight: 500;
-    color: var(--text-light);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
 }
 
-.credential-item i {
-    color: var(--blue);
-    font-size: 1.15rem;
-    flex-shrink: 0;
+.why-stat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border-dark);
 }
 
-/* Why Cards Grid */
+/* --- Right Side 6-Card Grid --- */
 .why-cards-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 18px;
     position: relative;
     z-index: 1;
 }
@@ -890,34 +895,34 @@ img {
 .why-card {
     background: var(--dark-card);
     border: 1px solid var(--border-dark);
-    border-radius: 16px;
-    padding: 32px 28px;
+    border-radius: 14px;
+    padding: 24px 22px;
     display: flex;
-    align-items: center;
-    gap: 20px;
+    align-items: flex-start;
+    gap: 16px;
     transition: all 0.35s ease;
 }
 
 .why-card:hover {
-    border-color: rgba(0, 82, 255, 0.25);
-    transform: translateY(-4px);
+    border-color: rgba(0, 82, 255, 0.3);
+    transform: translateY(-3px);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
 }
 
 .why-card-icon {
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px; /* Prevents icon shrinking with long text */
     background: rgba(0, 82, 255, 0.1);
-    border-radius: 14px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
     transition: all 0.35s ease;
 }
 
 .why-card-icon i {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--blue);
     transition: all 0.35s ease;
 }
@@ -930,40 +935,29 @@ img {
     color: #ffffff;
 }
 
-.why-card-info {
-    display: flex;
-    flex-direction: column;
+.why-card-body {
+    flex: 1;
 }
 
-.why-card-value {
-    font-size: 1.7rem;
-    font-weight: 800;
+.why-card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
     color: var(--text-white);
-    line-height: 1.2;
+    margin-bottom: 6px;
+    line-height: 1.3;
 }
 
-.why-card-value small {
-    color: #f6ad55;
-    font-size: 1rem;
-}
-
-.why-card-label {
+.why-card-text {
     font-size: 0.82rem;
-    font-weight: 500;
     color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 2px;
+    line-height: 1.6;
+    margin: 0;
 }
 
 /* ============================================
    RESPONSIVE — TABLET
    ============================================ */
 @media (max-width: 991.98px) {
-    .services-title {
-        font-size: 2rem;
-    }
-
     .why-title {
         font-size: 2rem;
     }
@@ -973,12 +967,13 @@ img {
         margin-bottom: 50px;
     }
 
-    .why-credentials {
-        align-items: center;
+    .why-stats-row {
+        margin: 35px auto 0;
+        justify-content: center;
     }
 
     .why-cards-row {
-        max-width: 500px;
+        max-width: 600px;
         margin: 0 auto;
     }
 }
@@ -987,26 +982,6 @@ img {
    RESPONSIVE — MOBILE
    ============================================ */
 @media (max-width: 767.98px) {
-    .services-section {
-        padding: 70px 0;
-    }
-
-    .services-header {
-        margin-bottom: 40px;
-    }
-
-    .services-title {
-        font-size: 1.65rem;
-    }
-
-    .services-desc {
-        font-size: 0.92rem;
-    }
-
-    .service-card {
-        padding: 26px 22px 22px;
-    }
-
     .why-section {
         padding: 70px 0;
     }
@@ -1019,47 +994,46 @@ img {
         font-size: 0.9rem;
     }
 
+    .why-stats-row {
+        width: 100%;
+        justify-content: space-around;
+        padding: 20px 15px;
+        gap: 15px;
+    }
+
+    .why-stat-val {
+        font-size: 1.4rem;
+    }
+
+    .why-stat-lbl {
+        font-size: 0.7rem;
+    }
+
     .why-cards-row {
         grid-template-columns: 1fr;
-        max-width: 360px;
+        max-width: 400px;
         margin: 0 auto;
-    }
-
-    .why-card {
-        padding: 26px 22px;
-    }
-
-    .why-card-value {
-        font-size: 1.4rem;
     }
 }
 
 @media (max-width: 575.98px) {
-    .services-title {
-        font-size: 1.45rem;
-    }
-
     .why-title {
         font-size: 1.4rem;
     }
 
-    .service-icon {
-        width: 48px;
-        height: 48px;
-    }
-
-    .service-icon i {
-        font-size: 1.2rem;
+    .why-card {
+        padding: 20px 18px;
     }
 
     .why-card-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 12px;
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        border-radius: 10px;
     }
 
     .why-card-icon i {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
     }
 }
 
