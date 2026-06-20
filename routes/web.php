@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\ViolationController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,11 @@ Route::get('/terms-of-service', [FrontendController::class, 'termsOfService'])->
 Route::get('/sitemap', [FrontendController::class, 'sitemap'])->name('sitemap');
 
 Route::post('/submit-estimate', [FrontendController::class, 'storeEstimate'])->name('estimate.store');
+
+
+
+// api
+Route::get('/api/check-violation', [ViolationController::class, 'check']);
 
 
 

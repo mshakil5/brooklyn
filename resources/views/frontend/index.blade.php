@@ -2,11 +2,6 @@
 
 @section('content')
 
-
-<style>
-
-</style>
-
 <!-- ========== HERO SECTION ========== -->
 <section class="hero-section">
     <!-- Background Image -->
@@ -82,53 +77,59 @@
 
             <!-- Right Form -->
             <div class="hero-right">
+                <!-- ========== RIGHT FORM ========== -->
                 <div class="hero-form-card">
                     <h2 class="form-card-title">Check My Property</h2>
                     <p class="form-card-subtitle">Free · Takes 30 seconds · No obligation</p>
                     
-                    <form id="checkForm" action="{{ route('contact.store') }}" method="POST">
-                        @csrf
-                        
+                    <!-- STEP 1: Address Lookup -->
+                    <div id="step-one">
                         <div class="form-group">
                             <label class="form-label-custom">Property Address <span class="required">*</span></label>
-                            <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" placeholder="e.g. 123 Atlantic Ave, Brooklyn, NY" value="{{ old('address') }}" required>
-                            @error('address')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <input type="text" id="lookup-address" class="form-control" placeholder="e.g. 123 Atlantic Ave, Brooklyn, NY" required>
                         </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label-custom">Your Name</label>
-                                <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror" placeholder="John Smith" value="{{ old('first_name') }}">
-                                @error('first_name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label-custom">Phone Number</label>
-                                <input type="tel" name="phone" class="form-control @error('phone') is-invalid @enderror" placeholder="(718) 000-0000" value="{{ old('phone') }}">
-                                @error('phone')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label-custom">Email Address</label>
-                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="you@example.com" value="{{ old('email') }}">
-                            @error('email')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        
-                        <button type="submit" class="btn-submit">
-                            Check My Property →
+                        <button type="button" id="btn-check" class="btn-submit" onclick="checkProperty()">
+                            <span id="btn-text">Check Now</span>
+                            <span id="btn-loader" class="d-none">
+                                <span class="spinner-border spinner-border-sm me-2" role="status"></span> Checking...
+                            </span>
                         </button>
-                    </form>
+                    </div>
+
+                    <!-- STEP 2: Results & Lead Capture (Hidden Initially) -->
+                    <div id="step-two" class="d-none mt-4 pt-4 border-t border-white/10">
+                        <div id="result-container" class="mb-4 p-3 rounded-md" style="background: rgba(255,255,255,0.05);">
+                            <!-- Results will be injected here via JS -->
+                        </div>
+                        
+                        <p class="text-sm text-[#94A3B8] mb-3 font-semibold">Send this report & get a Free Repair Estimate:</p>
+                        
+                        <form id="lead-form" action="#" method="POST">
+                            @csrf
+                            <input type="hidden" name="address" id="hidden-address" value="">
+                            <input type="hidden" name="violation_status" id="hidden-status" value="">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label-custom">Your Name</label>
+                                    <input type="text" name="first_name" class="form-control" placeholder="John Smith" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label-custom">Phone</label>
+                                    <input type="tel" name="phone" class="form-control" placeholder="(718) 000-0000" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label-custom">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="you@example.com" required>
+                            </div>
+                            <button type="submit" class="btn-submit">
+                                Get Free Estimate →
+                            </button>
+                        </form>
+                    </div>
                     
-                    <p class="form-privacy-note">🔒 Your information is private and never shared.</p>
+                    <p class="form-privacy-note mt-4">🔒 Your information is private and never shared.</p>
                 </div>
             </div>
         </div>
@@ -163,304 +164,8 @@
 </div>
 
 
-    <!-- ========== SERVICES SECTION ========== -->
-    <section class="services-section">
-        <div class="container">
-            <div class="services-header text-center">
-                <span class="services-tag">Our Services</span>
-                <h2 class="services-title">Comprehensive Sidewalk &<br><span class="text-blue">Concrete Services</span></h2>
-                <p class="services-desc">From violation removal to complete concrete installation, we provide end-to-end sidewalk solutions for property owners across New York City.</p>
-            </div>
-            <div class="row g-4">
-                @foreach($services as $service)
-                    <div class="col-md-6 col-lg-3">
-                        <a href="{{ route('service') }}#{{ $service->slug }}" class="text-decoration-none">
-                            <div class="service-card">
-                                <div class="service-icon">
-                                    <i class="{{ $service->icon }}"></i>
-                                </div>
-                                <h5>{{ $service->title }}</h5>
-                                <p>{{ Str::limit(strip_tags($service->description), 90) }}</p>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== WHY NYC SIDEWALK PROS ========== -->
-    <section class="why-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-5">
-                    <div class="why-content">
-                        <span class="why-tag">Why Choose Us</span>
-                        <h2 class="why-title">The Standard for <span class="text-blue">NYC Concrete</span> Work</h2>
-                        <p class="why-desc">NYC Sidewalk Pros is the trusted choice for property owners, building managers, and contractors across all five boroughs. Our commitment to quality, compliance, and customer satisfaction sets us apart.</p>
-                        <div class="why-credentials">
-                            <div class="credential-item">
-                                <i class="bi bi-patch-check-fill"></i>
-                                <span>Licensed & Insured</span>
-                            </div>
-                            <div class="credential-item">
-                                <i class="bi bi-patch-check-fill"></i>
-                                <span>DOT Certified Contractor</span>
-                            </div>
-                            <div class="credential-item">
-                                <i class="bi bi-patch-check-fill"></i>
-                                <span>5-Year Workmanship Warranty</span>
-                            </div>
-                            <div class="credential-item">
-                                <i class="bi bi-patch-check-fill"></i>
-                                <span>All 5 Boroughs Covered</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="why-cards-row">
-                        <div class="why-card">
-                            <div class="why-card-icon">
-                                <i class="bi bi-award-fill"></i>
-                            </div>
-                            <div class="why-card-info">
-                                <span class="why-card-value">A+</span>
-                                <span class="why-card-label">BBB Rating</span>
-                            </div>
-                        </div>
-                        <div class="why-card">
-                            <div class="why-card-icon">
-                                <i class="bi bi-star-fill"></i>
-                            </div>
-                            <div class="why-card-info">
-                                <span class="why-card-value">4.9 <small>★</small></span>
-                                <span class="why-card-label">Google Rating</span>
-                            </div>
-                        </div>
-                        <div class="why-card">
-                            <div class="why-card-icon">
-                                <i class="bi bi-chat-square-text-fill"></i>
-                            </div>
-                            <div class="why-card-info">
-                                <span class="why-card-value">500+</span>
-                                <span class="why-card-label">Customer Reviews</span>
-                            </div>
-                        </div>
-                        <div class="why-card">
-                            <div class="why-card-icon">
-                                <i class="bi bi-people-fill"></i>
-                            </div>
-                            <div class="why-card-info">
-                                <span class="why-card-value">5,000+</span>
-                                <span class="why-card-label">Projects Done</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
-
-
-
-
-
-
-    @if($galleries->count() > 0)
-    <!-- ========== RECENT PROJECTS GALLERY ========== -->
-    <section class="projects-section">
-        <div class="container">
-            <div class="projects-top-row">
-                <div class="projects-header-left">
-                    <span class="section-tag">Our Work</span>
-                    <h2 class="section-title">Recent <span class="text-blue">Projects</span></h2>
-                </div>
-                <a href="{{ route('gallery') }}" class="btn-gallery-link">
-                    View Full Gallery <i class="bi bi-arrow-right"></i>
-                </a>
-            </div>
-            
-            @if($galleries->count() > 0)
-            <div class="row g-3">
-                @foreach($galleries as $gallery)
-                    <div class="col-6 col-lg-3">
-                        <div class="gallery-card" data-img="{{ asset($gallery->after_image ?? $gallery->before_image) }}">
-                            <div class="gallery-img">
-                                <img src="{{ asset($gallery->after_image ?? $gallery->before_image) }}" 
-                                     alt="{{ $gallery->title }}"
-                                     onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
-                                <div class="gallery-zoom">
-                                    <i class="bi bi-arrows-fullscreen"></i>
-                                </div>
-                            </div>
-                            <div class="gallery-info">
-                                <span class="gallery-category">{{ App\Models\Gallery::getCategoryOptions()[$gallery->category] ?? 'Uncategorized' }}</span>
-                                <h5>{{ $gallery->title }}</h5>
-                                @if($gallery->location)
-                                    <p class="gallery-location">
-                                        <i class="bi bi-geo-alt-fill"></i> {{ $gallery->location }}
-                                    </p>
-                                @endif
-                                @if($gallery->year)
-                                    <span class="gallery-year">{{ $gallery->year }}</span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-            @endif
-        </div>
-    </section>
-
-    <!-- ========== LIGHTBOX MODAL ========== -->
-    <div class="lightbox-overlay" id="lightbox">
-        <button class="lightbox-close" id="lightboxClose"><i class="bi bi-x-lg"></i></button>
-        <button class="lightbox-nav lightbox-prev" id="lightboxPrev"><i class="bi bi-chevron-left"></i></button>
-        <button class="lightbox-nav lightbox-next" id="lightboxNext"><i class="bi bi-chevron-right"></i></button>
-        <div class="lightbox-content">
-            <img src="" alt="Project Image" id="lightboxImg">
-            <div class="lightbox-caption" id="lightboxCaption"></div>
-        </div>
-    </div>
-    @endif
-
-
-
-
-    <!-- ========== CLIENT STORIES ========== -->
-    <section class="stories-section">
-        <div class="container">
-            <div class="section-header text-center">
-                <span class="section-tag dark-tag">Testimonials</span>
-                <h2 class="section-title-dark">What NYC Property <span class="text-blue">Owners Say</span></h2>
-                <p class="section-desc-dark">Trusted by thousands of property owners across all five boroughs.</p>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-4">
-                    <div class="story-card">
-                        <div class="story-stars">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                        </div>
-                        <p class="story-text">"They handled my sidewalk violation from start to finish. The DOT inspection passed on the first try and my violation was completely dismissed. Couldn't be happier!"</p>
-                        <div class="story-author">
-                            <div class="story-avatar">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80" alt="Michael R.">
-                            </div>
-                            <div class="story-info">
-                                <h6>Michael R.</h6>
-                                <span>Property Owner, Brooklyn</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="story-card">
-                        <div class="story-stars">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                        </div>
-                        <p class="story-text">"Professional team, fair pricing, and excellent communication throughout the entire project. They replaced 12 sidewalk slabs in just 4 days. Highly recommend their services."</p>
-                        <div class="story-author">
-                            <div class="story-avatar">
-                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80" alt="Sarah K.">
-                            </div>
-                            <div class="story-info">
-                                <h6>Sarah K.</h6>
-                                <span>Building Manager, Manhattan</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="story-card">
-                        <div class="story-stars">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                        </div>
-                        <p class="story-text">"I was so stressed about my DOT violation notice. These guys took care of everything — permits, concrete work, inspection. Peace of mind at a great price."</p>
-                        <div class="story-author">
-                            <div class="story-avatar">
-                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=80" alt="David L.">
-                            </div>
-                            <div class="story-info">
-                                <h6>David L.</h6>
-                                <span>Homeowner, Queens</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== FREE INSTANT CHECK ========== -->
-    <section class="check-section">
-        <div class="container">
-            <div class="check-wrapper">
-                <div class="row align-items-center">
-                    <div class="col-lg-6">
-                        <div class="check-content">
-                            <span class="check-tag">Free Check</span>
-                            <h2 class="check-title">Does Your Sidewalk Have <span class="text-blue">Violations?</span></h2>
-                            <p class="check-desc">Enter your property address below and we'll instantly check if there are any active sidewalk violations. It's completely free and takes just seconds.</p>
-                            <div class="check-features">
-                                <div class="check-feature">
-                                    <i class="bi bi-check-circle-fill"></i>
-                                    <span>Instant violation lookup</span>
-                                </div>
-                                <div class="check-feature">
-                                    <i class="bi bi-check-circle-fill"></i>
-                                    <span>No obligation or cost</span>
-                                </div>
-                                <div class="check-feature">
-                                    <i class="bi bi-check-circle-fill"></i>
-                                    <span>Expert review included</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="check-form-card">
-                            <h4><i class="bi bi-search"></i> Check Your Property</h4>
-                            <p>Enter your NYC property address to get started</p>
-                            <form id="instantCheckForm">
-                                <div class="check-input-group">
-                                    <i class="bi bi-geo-alt"></i>
-                                    <input type="text" class="form-control" placeholder="Enter your property address..." required>
-                                </div>
-                                <button type="submit" class="btn-check">
-                                    Check Now
-                                    <i class="bi bi-arrow-right"></i>
-                                </button>
-                            </form>
-                            <div class="check-trust">
-                                <i class="bi bi-shield-lock-fill"></i>
-                                <span>Your information is 100% secure and private</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
     
+    @include('frontend.inc.index')
     @include('frontend.inc.estimate')
 
 
@@ -468,72 +173,129 @@
 
 @section('script')
 
-    <script>
-        // ========== HOMEPAGE LIGHTBOX ==========
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightboxImg');
-        const lightboxCaption = document.getElementById('lightboxCaption');
-        const lightboxClose = document.getElementById('lightboxClose');
-        const lightboxPrev = document.getElementById('lightboxPrev');
-        const lightboxNext = document.getElementById('lightboxNext');
-        const galleryCards = document.querySelectorAll('.projects-section .gallery-card');
-        let currentIndex = 0;
+<script>
+function checkProperty() {
+    const address = document.getElementById('lookup-address').value.trim();
+    if (!address) {
+        document.getElementById('lookup-address').classList.add('is-invalid');
+        return;
+    }
+    document.getElementById('lookup-address').classList.remove('is-invalid');
 
-        if (galleryCards.length > 0) {
-            function openLightbox(index) {
-                currentIndex = index;
-                updateLightbox();
-                lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden';
+    // Show loader
+    document.getElementById('btn-text').classList.add('d-none');
+    document.getElementById('btn-loader').classList.remove('d-none');
+    document.getElementById('btn-check').disabled = true;
+
+    // Use the full URL for debugging on localhost
+    const apiUrl = window.location.origin + '/api/check-violation?address=' + encodeURIComponent(address);
+    
+    console.log('Calling API:', apiUrl);
+
+    fetch(apiUrl)
+        .then(response => {
+            console.log('Response status:', response.status);
+            console.log('Response ok:', response.ok);
+            
+            if (!response.ok) {
+                // Try to get error message from response
+                return response.json().then(data => {
+                    throw new Error(data.error || 'Server error: ' + response.status);
+                }).catch(() => {
+                    throw new Error('Server error: ' + response.status);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('API Response:', data);
+            
+            // Hide loader
+            document.getElementById('btn-text').classList.remove('d-none');
+            document.getElementById('btn-loader').classList.add('d-none');
+            document.getElementById('btn-check').disabled = false;
+
+            if (data.error) {
+                alert(data.error);
+                return;
             }
 
-            function closeLightbox() {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = '';
+            // Show Step 2
+            document.getElementById('step-two').classList.remove('d-none');
+            document.getElementById('hidden-address').value = data.address;
+            document.getElementById('hidden-status').value = data.status + ' (Score: ' + data.risk_score + ')';
+
+            const resultDiv = document.getElementById('result-container');
+            
+            // Build detail bullets
+            let detailsHtml = '';
+            if (data.risk_details && data.risk_details.length > 0) {
+                detailsHtml = '<ul class="mt-2 mb-0 text-sm text-gray-300 space-y-1">';
+                data.risk_details.forEach(function(detail) {
+                    detailsHtml += '<li class="flex items-start gap-2"><span class="mt-0.5">•</span>' + detail + '</li>';
+                });
+                detailsHtml += '</ul>';
             }
 
-            function updateLightbox() {
-                const card = galleryCards[currentIndex];
-                const imgSrc = card.getAttribute('data-img');
-                const title = card.querySelector('h5').textContent;
-                
-                // Safely get location text without the icon text
-                const locationEl = card.querySelector('.gallery-location');
-                const locationText = locationEl ? locationEl.textContent.trim() : '';
-                
-                lightboxImg.src = imgSrc;
-                lightboxCaption.textContent = title + (locationText ? ' — ' + locationText : '');
+            // Color map
+            const colors = {
+                red:   { bg: 'rgba(239, 68, 68, 0.1)',  border: 'rgba(239, 68, 68, 0.2)',  text: 'text-red-400',   score: 'text-red-400' },
+                amber: { bg: 'rgba(245, 158, 11, 0.1)', border: 'rgba(245, 158, 11, 0.2)', text: 'text-amber-400', score: 'text-amber-400' },
+                green: { bg: 'rgba(34, 197, 94, 0.1)',  border: 'rgba(34, 197, 94, 0.2)',  text: 'text-green-400', score: 'text-green-400' },
+            };
+            const c = colors[data.status_color];
+
+            if (data.status === 'danger') {
+                resultDiv.innerHTML = `
+                    <div style="background: ${c.bg}; border: 1px solid ${c.border};" class="p-3 rounded-md">
+                        <div class="flex items-center gap-2 ${c.text} font-bold mb-1">
+                            <i class="bi ${data.status_icon} text-lg"></i> 
+                            ${data.status_text} — Active Issues Found!
+                        </div>
+                        <p class="text-sm text-gray-300 mb-1">Risk Score: <strong class="${c.score}">${data.risk_score}/100</strong></p>
+                        ${detailsHtml}
+                    </div>
+                `;
+            } else if (data.status === 'warning') {
+                resultDiv.innerHTML = `
+                    <div style="background: ${c.bg}; border: 1px solid ${c.border};" class="p-3 rounded-md">
+                        <div class="flex items-center gap-2 ${c.text} font-bold mb-1">
+                            <i class="bi ${data.status_icon} text-lg"></i> 
+                            ${data.status_text}
+                        </div>
+                        <p class="text-sm text-gray-300 mb-1">Risk Score: <strong class="${c.score}">${data.risk_score}/100</strong></p>
+                        ${detailsHtml}
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <div style="background: ${c.bg}; border: 1px solid ${c.border};" class="p-3 rounded-md">
+                        <div class="flex items-center gap-2 ${c.text} font-bold mb-1">
+                            <i class="bi ${data.status_icon} text-lg"></i> 
+                            ${data.status_text} — No Active Issues
+                        </div>
+                        <p class="text-sm text-gray-300">No open DOT sidewalk tickets or DOB complaints found for this address.</p>
+                    </div>
+                `;
             }
 
-            function nextSlide() {
-                currentIndex = (currentIndex + 1) % galleryCards.length;
-                updateLightbox();
-            }
+            // Scroll to results
+            document.getElementById('step-two').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-            function prevSlide() {
-                currentIndex = (currentIndex - 1 + galleryCards.length) % galleryCards.length;
-                updateLightbox();
-            }
+        })
+        .catch(error => {
+            console.error('Fetch Error:', error);
+            alert('Error: ' + error.message);
+            document.getElementById('btn-text').classList.remove('d-none');
+            document.getElementById('btn-loader').classList.add('d-none');
+            document.getElementById('btn-check').disabled = false;
+        });
+}
 
-            galleryCards.forEach((card, index) => {
-                card.addEventListener('click', () => openLightbox(index));
-            });
-
-            lightboxClose.addEventListener('click', closeLightbox);
-            lightboxNext.addEventListener('click', nextSlide);
-            lightboxPrev.addEventListener('click', prevSlide);
-
-            lightbox.addEventListener('click', (e) => {
-                if (e.target === lightbox) closeLightbox();
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (!lightbox.classList.contains('active')) return;
-                if (e.key === 'Escape') closeLightbox();
-                if (e.key === 'ArrowRight') nextSlide();
-                if (e.key === 'ArrowLeft') prevSlide();
-            });
-        }
-    </script>
+// Remove invalid class on input
+document.getElementById('lookup-address').addEventListener('input', function() {
+    this.classList.remove('is-invalid');
+});
+</script>
 
 @endsection
