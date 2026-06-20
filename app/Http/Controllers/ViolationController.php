@@ -235,11 +235,11 @@ class ViolationController extends Controller
     /**
      * Store the lead and send email notification
      */
+        /**
+     * Store the lead and send email notification
+     */
     public function storeLead(Request $request)
     {
-
-    
-
         $validated = $request->validate([
             'address'            => 'required|string|max:255',
             'first_name'         => 'required|string|max:100',
@@ -272,11 +272,15 @@ class ViolationController extends Controller
         ]);
 
         // Send Email Notification
-        // $this->sendLeadNotification($lead);
+        $this->sendLeadNotification($lead); 
 
-        return redirect()->back()->with('success', 'Thank you! We will contact you within 2 business hours with your free estimate.');
+        // Return JSON response for AJAX
+        return response()->json([
+            'success' => true,
+            'message' => 'Lead saved successfully',
+            'lead_id' => $lead->id,
+        ]);
     }
-
     /**
      * Send formatted email to site owner
      */
