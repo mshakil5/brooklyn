@@ -77,60 +77,81 @@
 
             <!-- Right Form -->
             <div class="hero-right">
-                <!-- ========== RIGHT FORM ========== -->
-                <div class="hero-form-card">
-                    <h2 class="form-card-title">Check My Property</h2>
-                    <p class="form-card-subtitle">Free · Takes 30 seconds · No obligation</p>
-                    
-                    <!-- STEP 1: Address Lookup -->
-                    <div id="step-one">
-                        <div class="form-group">
-                            <label class="form-label-custom">Property Address <span class="required">*</span></label>
-                            <input type="text" id="lookup-address" class="form-control" placeholder="e.g. 123 Atlantic Ave, Brooklyn, NY" required>
+                @if(session('success'))
+                    <!-- Success State -->
+                    <div class="hero-form-card" style="text-align: center; padding: 2.5rem;">
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(34, 197, 94, 0.15); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                            <i class="bi bi-check-circle-fill" style="font-size: 2rem; color: #22C55E;"></i>
                         </div>
-                        <button type="button" id="btn-check" class="btn-submit" onclick="checkProperty()">
-                            <span id="btn-text">Check Now</span>
-                            <span id="btn-loader" class="d-none">
-                                <span class="spinner-border spinner-border-sm me-2" role="status"></span> Checking...
-                            </span>
+                        <h3 style="color: #fff; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">Request Submitted!</h3>
+                        <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6;">{{ session('success') }}</p>
+                        <button type="button" class="btn-submit" style="margin-top: 1.5rem;" onclick="location.reload()">
+                            Check Another Property
                         </button>
                     </div>
+                @else
+                    <!-- Original Form -->
+                    <div class="hero-form-card">
+                        <h2 class="form-card-title">Check My Property</h2>
+                        <p class="form-card-subtitle">Free · Takes 30 seconds · No obligation</p>
+                        
+                        <!-- STEP 1: Address Lookup -->
+                        <div id="step-one">
+                            <div class="form-group">
+                                <label class="form-label-custom">Property Address <span class="required">*</span></label>
+                                <input type="text" id="lookup-address" class="form-control" placeholder="e.g. 123 Atlantic Ave, Brooklyn, NY" required>
+                            </div>
+                            <button type="button" id="btn-check" class="btn-submit" onclick="checkProperty()">
+                                <span id="btn-text">Check Now</span>
+                                <span id="btn-loader" class="d-none">
+                                    <span class="spinner-border spinner-border-sm me-2" role="status"></span> Checking...
+                                </span>
+                            </button>
+                        </div>
 
-                    <!-- STEP 2: Results & Lead Capture (Hidden Initially) -->
-                    <div id="step-two" class="d-none mt-4 pt-4 border-t border-white/10">
-                        <div id="result-container" class="mb-4 p-3 rounded-md" style="background: rgba(255,255,255,0.05);">
-                            <!-- Results will be injected here via JS -->
+                        <!-- STEP 2: Results & Lead Capture -->
+                        <div id="step-two" class="d-none mt-4 pt-4 border-t border-white/10">
+                            <div id="result-container" class="mb-4 p-3 rounded-md" style="background: rgba(255,255,255,0.05);">
+                            </div>
+                            
+                            <p class="text-sm text-[#94A3B8] mb-3 font-semibold">Send this report & get a Free Repair Estimate:</p>
+                            
+                            <form id="lead-form" action="{{ route('violation.lead.store') }}" method="POST">
+                                @csrf
+                                
+                                <input type="hidden" name="address" id="hidden-address" value="">
+    
+                                <!-- NEW: API Data Hidden Fields -->
+                                <input type="hidden" name="status" id="hidden-status" value="">
+                                <input type="hidden" name="risk_score" id="hidden-score" value="">
+                                <input type="hidden" name="dot_tickets_count" id="hidden-dot" value="">
+                                <input type="hidden" name="dob_complaints_count" id="hidden-dob" value="">
+                                <input type="hidden" name="risk_details" id="hidden-details" value="">
+                                <input type="hidden" name="api_raw_data" id="hidden-raw" value="">
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label-custom">Your Name</label>
+                                        <input type="text" name="first_name" class="form-control" placeholder="John Smith" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label-custom">Phone</label>
+                                        <input type="tel" name="phone" class="form-control" placeholder="(718) 000-0000" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label-custom">Email</label>
+                                    <input type="email" name="email" class="form-control" placeholder="you@example.com" required>
+                                </div>
+                                <button type="submit" class="btn-submit">
+                                    Get Free Estimate →
+                                </button>
+                            </form>
                         </div>
                         
-                        <p class="text-sm text-[#94A3B8] mb-3 font-semibold">Send this report & get a Free Repair Estimate:</p>
-                        
-                        <form id="lead-form" action="#" method="POST">
-                            @csrf
-                            <input type="hidden" name="address" id="hidden-address" value="">
-                            <input type="hidden" name="violation_status" id="hidden-status" value="">
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label-custom">Your Name</label>
-                                    <input type="text" name="first_name" class="form-control" placeholder="John Smith" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label-custom">Phone</label>
-                                    <input type="tel" name="phone" class="form-control" placeholder="(718) 000-0000" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label-custom">Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="you@example.com" required>
-                            </div>
-                            <button type="submit" class="btn-submit">
-                                Get Free Estimate →
-                            </button>
-                        </form>
+                        <p class="form-privacy-note mt-4">🔒 Your information is private and never shared.</p>
                     </div>
-                    
-                    <p class="form-privacy-note mt-4">🔒 Your information is private and never shared.</p>
-                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -220,10 +241,20 @@ function checkProperty() {
                 return;
             }
 
+            // --- POPULATE ALL HIDDEN FIELDS ---
+            document.getElementById('hidden-address').value = data.address;
+            document.getElementById('hidden-status').value = data.status;
+            document.getElementById('hidden-score').value = data.risk_score;
+            document.getElementById('hidden-dot').value = data.dot_tickets;
+            document.getElementById('hidden-dob').value = data.dob_complaints;
+            document.getElementById('hidden-details').value = JSON.stringify(data.risk_details);
+            document.getElementById('hidden-raw').value = JSON.stringify(data); // Saves entire API response!
+            // -------------------------------------
+
+
             // Show Step 2
             document.getElementById('step-two').classList.remove('d-none');
             document.getElementById('hidden-address').value = data.address;
-            document.getElementById('hidden-status').value = data.status + ' (Score: ' + data.risk_score + ')';
 
             const resultDiv = document.getElementById('result-container');
             

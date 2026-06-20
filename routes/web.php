@@ -48,6 +48,7 @@ Route::post('/submit-estimate', [FrontendController::class, 'storeEstimate'])->n
 
 // api
 Route::get('/api/check-violation', [ViolationController::class, 'check']);
+Route::post('/violation-lead', [ViolationController::class, 'storeLead'])->name('violation.lead.store');
 
 
 

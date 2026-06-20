@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ViolationController extends Controller
 {
@@ -148,24 +150,31 @@ class ViolationController extends Controller
     private function checkDOBComplaints($houseNumber, $streetName)
     {
         try {
+            // REMOVED: 'complaint_category' => '37' 
+            // Now it checks for ANY active DOB complaint at this address
             $url = "https://data.cityofnewyork.us/resource/eabe-havv.json?" . http_build_query([
                 '$$app_token'       => $this->appToken,
                 'house_number'       => $houseNumber,
                 'house_street'       => strtoupper($streetName),
-                'complaint_category' => '37',
                 'status'             => 'ACTIVE',
                 '$limit'             => 5,
             ]);
 
-            Log::info('DOB API call', ['url' => $url]);
-
             $response = Http::timeout(10)->get($url);
-            
-            Log::info('DOB response status', ['status' => $response->status()]);
-            
             $data = $response->json();
 
-            return is_array($data) ? count($data) : 0;
+            // Filter to only count sidewalk-related categories (37 and 45)
+            if (is_array($data)) {
+                $count = 0;
+                foreach ($data as $complaint) {
+                    if (in_array($complaint['complaint_category'], ['37', '45'])) {
+                        $count++;
+                    }
+                }
+                return $count;
+            }
+
+            return 0;
 
         } catch (\Exception $e) {
             Log::error('DOB check failed: ' . $e->getMessage());
@@ -220,4 +229,105 @@ class ViolationController extends Controller
 
         return null;
     }
+
+
+    
+    /**
+     * Store the lead and send email notification
+     */
+    public function storeLead(Request $request)
+    {
+
+    
+
+        $validated = $request->validate([
+            'address'            => 'required|string|max:255',
+            'first_name'         => 'required|string|max:100',
+            'phone'              => 'required|string|max:20',
+            'email'              => 'required|email|max:255',
+            'status'             => 'required|string|in:danger,warning,success',
+            'risk_score'         => 'required|integer',
+            'dot_tickets_count'  => 'required|integer',
+            'dob_complaints_count'=> 'required|integer',
+            'risk_details'       => 'nullable|string',
+            'api_raw_data'       => 'nullable|string',
+        ]);
+
+        // Decode JSON strings back to arrays
+        $riskDetails = json_decode($validated['risk_details'], true) ?? [];
+        $apiRawData = json_decode($validated['api_raw_data'], true) ?? [];
+
+        // Save to the new leads table
+        $lead = Lead::create([
+            'address'             => $validated['address'],
+            'first_name'          => $validated['first_name'],
+            'phone'               => $validated['phone'],
+            'email'               => $validated['email'],
+            'status'              => $validated['status'],
+            'risk_score'          => $validated['risk_score'],
+            'dot_tickets_count'   => $validated['dot_tickets_count'],
+            'dob_complaints_count'=> $validated['dob_complaints_count'],
+            'risk_details'        => $riskDetails,
+            'api_raw_data'        => $apiRawData,
+        ]);
+
+        // Send Email Notification
+        // $this->sendLeadNotification($lead);
+
+        return redirect()->back()->with('success', 'Thank you! We will contact you within 2 business hours with your free estimate.');
+    }
+
+    /**
+     * Send formatted email to site owner
+     */
+    private function sendLeadNotification($lead)
+    {
+        // !!! CHANGE THIS TO YOUR EMAIL !!!
+        $toEmail = 'your-email@example.com'; 
+
+        // Determine Priority Emoji & Text
+        if ($lead->status === 'danger') {
+            $priority = '🚨 HIGH PRIORITY (Active Issues)';
+        } elseif ($lead->status === 'warning') {
+            $priority = '⚠️ MEDIUM PRIORITY (At Risk)';
+        } else {
+            $priority = '✅ LOW PRIORITY (All Clear)';
+        }
+
+        // Format the issues found
+        $issuesText = "None found.";
+        if ($lead->risk_details) {
+            $issuesText = "- " . implode("\n- ", $lead->risk_details);
+        }
+
+        // Build plain text email (looks great on all devices)
+        $body = "NEW SIDEWALK VIOLATION LEAD\n";
+        $body .= "==================================================\n\n";
+        $body .= "PRIORITY: {$priority}\n";
+        $body .= "RISK SCORE: {$lead->risk_score}/100\n\n";
+        
+        $body .= "PROPERTY DETAILS:\n";
+        $body .= "Address: {$lead->address}\n";
+        $body .= "Open DOT Tickets: {$lead->dot_tickets_count}\n";
+        $body .= "Active DOB Complaints: {$lead->dob_complaints_count}\n";
+        $body .= "Issues:\n{$issuesText}\n\n";
+
+        $body .= "CUSTOMER CONTACT INFO:\n";
+        $body .= "Name: {$lead->first_name}\n";
+        $body .= "Phone: {$lead->phone}\n";
+        $body .= "Email: {$lead->email}\n\n";
+        
+        $body .= "==================================================\n";
+        $body .= "Log in to your admin panel to mark this lead as contacted.";
+
+        Mail::raw($body, function ($message) use ($toEmail, $lead) {
+            $subject = ($lead->status === 'danger' ? '🚨 HOT LEAD' : '📋 New Lead') . ': ' . $lead->address;
+            
+            $message->to($toEmail)
+                    ->subject($subject);
+        });
+    }
+
+
+
 }
