@@ -118,6 +118,15 @@
                 </li>
 
                 
+                
+                <li class="nav-item">
+                    <a href="{{ route('leads.index') }}" class="nav-link {{ Route::is('leads.index') ? 'active' : '' }}">
+                        <i class="ri-mail-open-line"></i>
+                        <span>Violation Leads</span>
+                    </a>
+                </li>
+
+                
                 <li class="nav-item">
                     <a href="{{ route('estimates.index') }}" class="nav-link {{ Route::is('estimates.index') ? 'active' : '' }}">
                         <i class="ri-mail-open-line"></i>

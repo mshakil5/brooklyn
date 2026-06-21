@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\EstimateController;
 use App\Http\Controllers\Admin\FAQController;
 use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\MasterController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -175,6 +176,12 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/estimates/{id}', [EstimateController::class, 'show'])->name('estimates.show');
     Route::delete('/estimates/{id}/delete', [EstimateController::class, 'destroy'])->name('estimates.delete');
     Route::post('/estimates/toggle-read', [EstimateController::class, 'toggleRead'])->name('estimates.toggleRead');
+
+    // Violation Leads
+    Route::get('/leads', [LeadController::class, 'index'])->name('leads.index');
+    Route::get('/leads/{id}', [LeadController::class, 'show'])->name('leads.show');
+    Route::delete('/leads/{id}/delete', [LeadController::class, 'destroy'])->name('leads.delete');
+    Route::post('/leads/toggle-contacted', [LeadController::class, 'toggleContacted'])->name('leads.toggleContacted');
 
 
 
