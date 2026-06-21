@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CompanyDetailsController;
 use App\Http\Controllers\Admin\ContactController;
@@ -182,6 +183,16 @@ Route::group(['prefix' =>'admin/', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('/leads/{id}', [LeadController::class, 'show'])->name('leads.show');
     Route::delete('/leads/{id}/delete', [LeadController::class, 'destroy'])->name('leads.delete');
     Route::post('/leads/toggle-contacted', [LeadController::class, 'toggleContacted'])->name('leads.toggleContacted');
+
+
+    
+    //banner
+    Route::get('/banner', [BannerController::class,'index'])->name('banner.index');
+    Route::post('/banner', [BannerController::class,'store'])->name('banner.store');
+    Route::get('/banner/{id}/edit', [BannerController::class,'edit']);
+    Route::post('/banner-update', [BannerController::class,'update'])->name('banner.update');
+    Route::get('/banner/{id}/delete', [BannerController::class,'destroy']);
+    Route::post('/banner-status', [BannerController::class,'toggleStatus']);
 
 
 

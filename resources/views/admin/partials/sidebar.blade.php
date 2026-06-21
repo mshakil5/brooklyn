@@ -240,6 +240,11 @@
                                   class="nav-link {{ Route::is('allslider') ? 'active' : '' }}">Sliders
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('banner.index') }}" 
+                                  class="nav-link {{ Route::is('banner.index') ? 'active' : '' }}">Banner
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

@@ -162,7 +162,7 @@
 </section>
 
 <!-- Stats Bar -->
-<div class="stats-bar">
+<div class="stats-bar d-none">
     <div class="container">
         <div class="row g-0">
             @php
