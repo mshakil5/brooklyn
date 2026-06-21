@@ -20,6 +20,9 @@ class Gallery extends Model
         'concrete-replacement'  => 'Concrete Replacement',
         'driveway'              => 'Driveway',
         'ada-ramps'             => 'ADA Ramps',
+        'curb'                  => 'Curb',
+        'excavation'            => 'Excavation',
+        'landmark-sidewalks'    => 'Landmark Sidewalks',
     ];
 
     public static function getCategoryOptions()

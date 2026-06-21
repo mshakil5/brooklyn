@@ -18,14 +18,9 @@
     
         <div class="container">
             <div class="banner-content">
-                <span class="banner-tag">Our Portfolio</span>
+                <span class="banner-tag">Our Projects</span>
                 <h1 class="banner-title">Project <span class="text-blue">Gallery</span></h1>
                 <p class="banner-desc">Browse our portfolio of sidewalk and concrete repair projects completed across New York City. See the before and after results of our work.</p>
-                <div class="banner-breadcrumb">
-                    <a href="{{ route('home') }}">Home</a>
-                    <i class="bi bi-chevron-right"></i>
-                    <span>Gallery</span>
-                </div>
             </div>
         </div>
     </section>
