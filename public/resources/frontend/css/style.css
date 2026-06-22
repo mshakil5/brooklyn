@@ -52,6 +52,13 @@ img {
     color: var(--blue) !important;
 }
 
+
+
+
+
+
+
+
 /* ============================================
    NAVBAR
    ============================================ */
@@ -62,13 +69,15 @@ img {
     z-index: 1000;
 }
 
+/* ---- SCROLLED: White BG + Blue Text ---- */
 .navbar.scrolled {
-    background: rgba(10, 15, 30, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(12px);
-    padding: 12px 0;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    padding: 10px 0;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
 }
 
+/* Brand */
 .navbar-brand {
     display: flex;
     align-items: center;
@@ -78,23 +87,44 @@ img {
     font-size: 1.3rem;
     color: var(--text-white) !important;
     letter-spacing: -0.3px;
+    transition: all 0.35s ease;
 }
 
 .navbar-brand i {
     color: var(--blue);
     font-size: 1.5rem;
+    transition: color 0.35s ease;
 }
 
 .navbar-brand span {
     color: var(--blue);
+    transition: color 0.35s ease;
 }
 
+.navbar.scrolled .navbar-brand {
+    color: #0F172A !important;
+}
+
+.navbar.scrolled .navbar-brand span {
+    color: var(--blue);
+}
+
+/* Brand logo image */
+.brand-logo {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+    transition: filter 0.35s ease;
+}
+
+/* Nav Links */
 .navbar .nav-link {
     color: var(--text-light);
     font-weight: 500;
     font-size: 0.9rem;
     padding: 8px 18px !important;
     position: relative;
+    transition: color 0.35s ease;
 }
 
 .navbar .nav-link::after {
@@ -120,10 +150,22 @@ img {
     transform: scaleX(1);
 }
 
+/* Nav links — scrolled */
+.navbar.scrolled .nav-link {
+    color: #334155;
+}
+
+.navbar.scrolled .nav-link:hover,
+.navbar.scrolled .nav-link.active {
+    color: var(--blue);
+}
+
+/* Right side */
 .nav-right {
     gap: 20px;
 }
 
+/* Phone */
 .nav-phone {
     display: flex;
     align-items: center;
@@ -132,16 +174,28 @@ img {
     font-size: 0.88rem;
     font-weight: 500;
     white-space: nowrap;
+    transition: color 0.35s ease;
 }
 
 .nav-phone i {
     color: var(--blue);
+    transition: color 0.35s ease;
 }
 
 .nav-phone:hover {
     color: var(--text-white);
 }
 
+/* Phone — scrolled */
+.navbar.scrolled .nav-phone {
+    color: #475569;
+}
+
+.navbar.scrolled .nav-phone:hover {
+    color: var(--blue);
+}
+
+/* CTA Button */
 .btn-nav-cta {
     background: var(--blue);
     color: var(--text-white);
@@ -159,6 +213,10 @@ img {
     color: var(--text-white);
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(0, 82, 255, 0.35);
+}
+
+.navbar.scrolled .btn-nav-cta:hover {
+    box-shadow: 0 6px 20px rgba(0, 82, 255, 0.25);
 }
 
 /* Custom Hamburger */
@@ -181,9 +239,76 @@ img {
     height: 2px;
     background: var(--text-white);
     border-radius: 2px;
-    transition: all 0.3s ease;
+    transition: all 0.35s ease;
 }
 
+/* Hamburger — scrolled */
+.navbar.scrolled .toggler-bar {
+    background: #0F172A;
+}
+
+/* ---- Mobile Menu (scrolled) ---- */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: rgba(10, 15, 30, 0.98);
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 15px;
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border-dark);
+        transition: background 0.35s ease, border-color 0.35s ease;
+    }
+
+    .navbar.scrolled .navbar-collapse {
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar.scrolled .navbar-collapse .nav-link {
+        color: #334155;
+    }
+
+    .navbar.scrolled .navbar-collapse .nav-link:hover,
+    .navbar.scrolled .navbar-collapse .nav-link.active {
+        color: var(--blue);
+    }
+
+    .navbar.scrolled .navbar-collapse .nav-phone {
+        color: #475569;
+    }
+
+    .navbar.scrolled .navbar-collapse .nav-phone:hover {
+        color: var(--blue);
+    }
+
+    .navbar.scrolled .navbar-collapse .btn-nav-cta {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-right {
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 10px;
+        padding-top: 15px;
+        border-top: 1px solid var(--border-dark);
+        transition: border-color 0.35s ease;
+    }
+
+    .navbar.scrolled .nav-right {
+        border-top-color: #e2e8f0;
+    }
+
+    .btn-nav-cta {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-phone {
+        justify-content: center;
+    }
+}
 
 
 
