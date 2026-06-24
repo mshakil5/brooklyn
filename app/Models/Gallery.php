@@ -23,6 +23,7 @@ class Gallery extends Model
         'curb'                  => 'Curb',
         'excavation'            => 'Excavation',
         'landmark-sidewalks'    => 'Landmark Sidewalks',
+        'parking-lot'           => 'Parking Lot',
     ];
 
     public static function getCategoryOptions()
