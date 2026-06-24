@@ -207,11 +207,11 @@ class FrontendController extends Controller
 
     public function gallery()
     {
-        $galleries = Gallery::where('status', 1)->get();
-
-        return view('frontend.gallery', compact('galleries'));
+        $galleries = Gallery::where('status', 1)->orderBy('created_at', 'desc')->get();
+        $categories = Gallery::getCategoryOptions(); // Pass to view instead of calling in blade
+        
+        return view('frontend.gallery', compact('galleries', 'categories'));
     }
-
 
 
     public function storeEstimate(Request $request)
