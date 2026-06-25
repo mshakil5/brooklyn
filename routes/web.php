@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\ViolationController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -50,6 +51,11 @@ Route::post('/submit-estimate', [FrontendController::class, 'storeEstimate'])->n
 Route::get('/api/check-violation', [ViolationController::class, 'check']);
 Route::post('/violation-lead', [ViolationController::class, 'storeLead'])->name('violation.lead.store');
 
+
+
+// Sitemap & SEO
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots');
 
 
 Route::group(['prefix' =>'user/', 'middleware' => ['auth', 'is_user', 'verified']], function(){

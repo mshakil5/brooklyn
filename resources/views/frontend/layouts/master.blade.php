@@ -108,16 +108,15 @@
     <!-- ===== PAGE-SPECIFIC CSS ===== -->
     @yield('page-css')
 
-    <!-- ===== GOOGLE TAG MANAGER (HEAD) ===== -->
-    @if($company->google_tag_manager_id)
-        <script>
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','{{ $company->google_tag_manager_id }}');
-        </script>
-    @endif
+    <!-- ===== GOOGLE ANALYTICS 4 (GA4) ===== -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GXC0TZBPBG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-GXC0TZBPBG');
+    </script>
+
 
     <!-- ===== PAGE-SPECIFIC STRUCTURED DATA ===== -->
     @yield('structured-data')
