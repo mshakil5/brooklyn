@@ -52,6 +52,8 @@ class AboutController extends Controller
 
         return response()->json(['message' => 'Content updated successfully.']);
     }
+
+
     public function uploadImage(Request $request)
     {
         $request->validate([
@@ -60,16 +62,32 @@ class AboutController extends Controller
 
         $aboutPage = AboutPage::firstOrCreate([]);
 
-        if ($aboutPage->story_image && Storage::disk('public')->exists($aboutPage->story_image)) {
-            Storage::disk('public')->delete($aboutPage->story_image);
+        // Define upload path
+        $uploadPath = public_path('uploads/about');
+        
+        // Create directory if it doesn't exist
+        if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
         }
 
-        $path = $request->file('image')->store('about', 'public');
-        $aboutPage->update(['story_image' => $path]);
+        // Delete old image if exists
+        if ($aboutPage->story_image && file_exists(public_path($aboutPage->story_image))) {
+            unlink(public_path($aboutPage->story_image));
+        }
+
+        // Generate unique filename
+        $fileName = time() . '_' . $request->file('image')->getClientOriginalName();
+        
+        // Move file to public/uploads/about
+        $request->file('image')->move($uploadPath, $fileName);
+
+        // Save relative path to database
+        $relativePath = 'uploads/about/' . $fileName;
+        $aboutPage->update(['story_image' => $relativePath]);
 
         return response()->json([
             'message' => 'Image uploaded successfully.',
-            'image'   => Storage::url($path),
+            'image'   => asset($relativePath),
         ]);
     }
 

@@ -58,7 +58,7 @@
                 <div class="col-lg-6">
                     <div class="story-image">
                         @if($aboutPage->story_image)
-                            <img src="{{ Storage::disk('public')->url($aboutPage->story_image) }}" alt="Our construction team at work">
+                            <img src="{{ asset($aboutPage->story_image) }}" alt="Our construction team at work">
                         @else
                             <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Our construction team at work">
                         @endif
