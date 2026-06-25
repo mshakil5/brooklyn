@@ -33,6 +33,7 @@
                                     <label class="form-label">Page <span class="text-danger">*</span></label>
                                     <select class="form-control select2" id="page" name="page">
                                         <option value="">Select Page</option>
+                                        <option value="Home">Home</option>
                                         <option value="About">About</option>
                                         <option value="Contact">Contact</option>
                                         <option value="Service">Service</option>

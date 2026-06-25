@@ -14,6 +14,7 @@
     use App\Models\AboutMilestone;
     use App\Models\AboutValue;
     use App\Models\AboutCert;
+    use App\Models\Banner;
     use App\Models\Gallery;
     use App\Models\Estimate;
     use Illuminate\Http\Request;
@@ -34,7 +35,29 @@ class FrontendController extends Controller
             ->orderBy('id', 'desc')
             ->take(4)
             ->get();
-        return view('frontend.index', compact('slider','services','galleries'));
+
+        $banner = Banner::where('page', 'Home')->first();
+
+        // ── SEO: Banner → CompanyDetails → Hardcoded Default ──
+        $pageTitle       = null;
+        $pageDescription = null;
+        $pageKeywords    = null;
+        $pageImage       = null;   // ← always defined
+
+        if ($banner) {
+            $pageTitle       = $banner->seo_title       ?? null;
+            $pageDescription = $banner->seo_description ?? null;
+            $pageKeywords    = $banner->seo_keywords    ?? null;
+
+            if ($banner->og_image) {
+                $pageImage = asset('uploads/banner/' . $banner->og_image);
+            }
+        }
+
+        return view('frontend.index', compact(
+            'slider', 'services', 'galleries', 'banner',
+            'pageTitle', 'pageDescription', 'pageKeywords', 'pageImage'
+        ));
     }
 
     public function contact()
@@ -55,7 +78,28 @@ class FrontendController extends Controller
         $stats = \App\Models\AboutStat::whereIn('label', ['Projects Done', 'Years Experience', 'Satisfaction Rate'])
             ->pluck('number', 'label');
 
-        return view('frontend.contact', compact('company', 'services', 'stats'));
+        // ── SEO: Banner → CompanyDetails → Hardcoded Default ──
+        $banner = Banner::where('page', 'Contact')->first();
+
+        $pageTitle       = null;
+        $pageDescription = null;
+        $pageKeywords    = null;
+        $pageImage       = null;
+
+        if ($banner) {
+            $pageTitle       = $banner->seo_title       ?? null;
+            $pageDescription = $banner->seo_description ?? null;
+            $pageKeywords    = $banner->seo_keywords    ?? null;
+
+            if ($banner->og_image) {
+                $pageImage = asset('uploads/banner/' . $banner->og_image);
+            }
+        }
+
+        return view('frontend.contact', compact(
+            'company', 'services', 'stats',
+            'pageTitle', 'pageDescription', 'pageKeywords', 'pageImage'
+        ));
     }
 
         public function contactStore(Request $request)
@@ -184,8 +228,27 @@ class FrontendController extends Controller
         $values      = AboutValue::where('status', 1)->orderBy('sort_order')->get();
         $certs       = AboutCert::where('status', 1)->orderBy('sort_order')->get();
 
+        // ── SEO: Banner → CompanyDetails → Hardcoded Default ──
+        $banner = Banner::where('page', 'About')->first();
+
+        $pageTitle       = null;
+        $pageDescription = null;
+        $pageKeywords    = null;
+        $pageImage       = null;
+
+        if ($banner) {
+            $pageTitle       = $banner->seo_title       ?? null;
+            $pageDescription = $banner->seo_description ?? null;
+            $pageKeywords    = $banner->seo_keywords    ?? null;
+
+            if ($banner->og_image) {
+                $pageImage = asset('uploads/banner/' . $banner->og_image);
+            }
+        }
+
         return view('frontend.about', compact(
-            'aboutPage', 'stats', 'highlights', 'milestones', 'values', 'certs'
+            'aboutPage', 'stats', 'highlights', 'milestones', 'values', 'certs',
+            'pageTitle', 'pageDescription', 'pageKeywords', 'pageImage'
         ));
     }
 
@@ -195,22 +258,86 @@ class FrontendController extends Controller
         $services = Service::where('status', 1)
                     ->orderBy('serial', 'asc')
                     ->get();
-        return view('frontend.service', compact('services'));
-    }
 
+        // ── SEO: Banner → CompanyDetails → Hardcoded Default ──
+        $banner = Banner::where('page', 'Service')->first();
+
+        $pageTitle       = null;
+        $pageDescription = null;
+        $pageKeywords    = null;
+        $pageImage       = null;
+
+        if ($banner) {
+            $pageTitle       = $banner->seo_title       ?? null;
+            $pageDescription = $banner->seo_description ?? null;
+            $pageKeywords    = $banner->seo_keywords    ?? null;
+
+            if ($banner->og_image) {
+                $pageImage = asset('uploads/banner/' . $banner->og_image);
+            }
+        }
+
+        return view('frontend.service', compact(
+            'services',
+            'pageTitle', 'pageDescription', 'pageKeywords', 'pageImage'
+        ));
+    }
 
     public function testimonial()
     {
         $companyDetails = CompanyDetails::first();
-        return view('frontend.testimonial', compact('companyDetails'));
+
+        // ── SEO: Banner → CompanyDetails → Hardcoded Default ──
+        $banner = Banner::where('page', 'Testimonial')->first();
+
+        $pageTitle       = null;
+        $pageDescription = null;
+        $pageKeywords    = null;
+        $pageImage       = null;
+
+        if ($banner) {
+            $pageTitle       = $banner->seo_title       ?? null;
+            $pageDescription = $banner->seo_description ?? null;
+            $pageKeywords    = $banner->seo_keywords    ?? null;
+
+            if ($banner->og_image) {
+                $pageImage = asset('uploads/banner/' . $banner->og_image);
+            }
+        }
+
+        return view('frontend.testimonial', compact(
+            'companyDetails',
+            'pageTitle', 'pageDescription', 'pageKeywords', 'pageImage'
+        ));
     }
 
     public function gallery()
     {
         $galleries = Gallery::where('status', 1)->orderBy('created_at', 'desc')->get();
-        $categories = Gallery::getCategoryOptions(); // Pass to view instead of calling in blade
-        
-        return view('frontend.gallery', compact('galleries', 'categories'));
+        $categories = Gallery::getCategoryOptions();
+
+        // ── SEO: Banner → CompanyDetails → Hardcoded Default ──
+        $banner = Banner::where('page', 'Gallery')->first();
+
+        $pageTitle       = null;
+        $pageDescription = null;
+        $pageKeywords    = null;
+        $pageImage       = null;
+
+        if ($banner) {
+            $pageTitle       = $banner->seo_title       ?? null;
+            $pageDescription = $banner->seo_description ?? null;
+            $pageKeywords    = $banner->seo_keywords    ?? null;
+
+            if ($banner->og_image) {
+                $pageImage = asset('uploads/banner/' . $banner->og_image);
+            }
+        }
+
+        return view('frontend.gallery', compact(
+            'galleries', 'categories',
+            'pageTitle', 'pageDescription', 'pageKeywords', 'pageImage'
+        ));
     }
 
 
